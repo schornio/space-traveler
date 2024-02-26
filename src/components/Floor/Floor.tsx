@@ -6,8 +6,8 @@ import { useFrame } from "@react-three/fiber";
 import { schornColors } from "../../constants/schornColors";
 
 const RADIUS = 100;
-const HEIGHT = 1000;
-const RADIUS_SEGMENTS = 64;
+const WIDTH = 400;
+const RADIUS_SEGMENTS = 20;
 
 export function Floor() {
   const ref = useRef<Mesh | null>(null);
@@ -29,7 +29,7 @@ export function Floor() {
         rotationZInRad: Math.PI / 2,
       })}
     >
-      <cylinderGeometry args={[RADIUS, RADIUS, HEIGHT, RADIUS_SEGMENTS]} />
+      <cylinderGeometry args={[RADIUS, RADIUS, WIDTH, RADIUS_SEGMENTS]} />
       <meshStandardMaterial
         color={schornColors.magenta}
         wireframe

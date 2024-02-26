@@ -11,8 +11,10 @@ Title: SpaceShip "Carelia"
 import * as THREE from "three";
 import { useGLTF } from "@react-three/drei";
 import { GLTF } from "three-stdlib";
-import { toRotation } from "../utils/toRotation";
-import { toPosition } from "../utils/toPosition";
+import { toRotation } from "../../utils/toRotation";
+import { toPosition } from "../../utils/toPosition";
+import { PATH_3D_MODELS } from "./path";
+import { schornColors } from "../../constants/schornColors";
 
 type GLTFResult = GLTF & {
   nodes: {
@@ -31,16 +33,17 @@ type GLTFResult = GLTF & {
 
 export function Spaceship(props: JSX.IntrinsicElements["group"]) {
   const { nodes, materials } = useGLTF(
-    "/public/models/spaceshipOptimized-transformed.glb"
+    `${PATH_3D_MODELS}/spaceshipOptimized-transformed.glb`
   ) as GLTFResult;
+
   return (
     <group
       {...props}
       dispose={null}
-      scale={1}
+      scale={0.4}
       position={toPosition({
         positionBottom: 3,
-        positionIn: 30,
+        positionIn: 6,
       })}
       rotation={toRotation({
         rotationXInDeg: -10,
@@ -65,10 +68,9 @@ export function Spaceship(props: JSX.IntrinsicElements["group"]) {
       <mesh
         geometry={nodes.Cube001_Weapons_0.geometry}
         material={materials.Weapons}
-        // scale={16.453}
       />
     </group>
   );
 }
 
-useGLTF.preload("/public/models/spaceshipOptimized-transformed.glb");
+useGLTF.preload(`${PATH_3D_MODELS}/spaceshipOptimized-transformed.glb`);
