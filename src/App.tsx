@@ -2,6 +2,7 @@ import { Canvas } from "@react-three/fiber";
 import "./globals.css";
 import { OrbitControls } from "@react-three/drei";
 import { Spaceship } from "./components/Spaceship";
+import { Floor } from "./components/Floor";
 
 function App() {
   return (
@@ -12,6 +13,8 @@ function App() {
       <OrbitControls />
 
       <Spaceship />
+
+      <Floor />
     </Canvas>
   );
 }

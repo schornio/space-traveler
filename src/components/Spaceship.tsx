@@ -11,6 +11,8 @@ Title: SpaceShip "Carelia"
 import * as THREE from "three";
 import { useGLTF } from "@react-three/drei";
 import { GLTF } from "three-stdlib";
+import { toRotation } from "../utils/toRotation";
+import { toPosition } from "../utils/toPosition";
 
 type GLTFResult = GLTF & {
   nodes: {
@@ -32,26 +34,38 @@ export function Spaceship(props: JSX.IntrinsicElements["group"]) {
     "/public/models/spaceshipOptimized-transformed.glb"
   ) as GLTFResult;
   return (
-    <group {...props} dispose={null} scale={0.1}>
+    <group
+      {...props}
+      dispose={null}
+      scale={1}
+      position={toPosition({
+        positionBottom: 3,
+        positionIn: 30,
+      })}
+      rotation={toRotation({
+        rotationXInDeg: -10,
+        rotationYInRad: -Math.PI / 2,
+      })}
+    >
       <mesh
         geometry={nodes.Cube001_Material007_0.geometry}
         material={materials["Material.007"]}
-        scale={16.453}
+        // scale={16.453}
       />
       <mesh
         geometry={nodes.Cube001_Engines_0.geometry}
         material={materials.Engines}
-        scale={16.453}
+        // scale={16.453}
       />
       <mesh
         geometry={nodes.Cube001_Glass_0.geometry}
         material={materials.Glass}
-        scale={16.453}
+        // scale={16.453}
       />
       <mesh
         geometry={nodes.Cube001_Weapons_0.geometry}
         material={materials.Weapons}
-        scale={16.453}
+        // scale={16.453}
       />
     </group>
   );
