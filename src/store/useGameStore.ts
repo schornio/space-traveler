@@ -43,17 +43,14 @@ export const useGameStore = create<GameStore>((set) => ({
 
     const spaceshipBox = new Box3().setFromObject(spaceshipRef.current);
 
-    asteroidsRef.forEach((asteroidRef) => {
-      if (asteroidRef && asteroidRef.current) {
+    for (let asteroidRef of asteroidsRef) {
+      if (asteroidRef.current) {
         const asteroidBox = new Box3().setFromObject(asteroidRef.current);
-        const collision = spaceshipBox.intersectsBox(asteroidBox);
-
-        if (collision) {
-          //   console.log("collided");
+        if (spaceshipBox.intersectsBox(asteroidBox)) {
           return { isCollision: true };
         }
       }
-    });
+    }
 
     return { isCollision: false };
   },

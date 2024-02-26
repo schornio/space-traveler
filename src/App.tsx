@@ -6,7 +6,10 @@ import { Floor } from "./components/Floor";
 import { Asteroid } from "./components/3DModels/Asteroid";
 import { toPosition } from "./utils/toPosition";
 import { useGameStore } from "./store/useGameStore";
-import { useEffect, useState } from "react";
+import { memo, useEffect, useRef, useState } from "react";
+import { fontSize } from "./utils/fontSizes";
+
+const FloorMemoized = memo(Floor);
 
 function App() {
   const checkCollisionLaserWithAsteroid = useGameStore(
@@ -15,33 +18,32 @@ function App() {
   const [isCollided, setIsCollided] = useState(false);
 
   useEffect(() => {
-    const interval = setInterval(() => {
+    setInterval(() => {
       const { isCollision } = checkCollisionLaserWithAsteroid();
+
       if (isCollision) {
         setIsCollided(true);
 
         setTimeout(() => {
           setIsCollided(false);
-        }, 500);
+        }, 200);
       }
-    }, 200);
-
-    return () => {
-      clearInterval(interval);
-    };
+    }, 1000);
   }, [checkCollisionLaserWithAsteroid]);
+
+  // console.log("isCollided", isCollided);
 
   return (
     <Canvas>
-      {isCollided && <Text>collided</Text>}
-
+      {isCollided && <Text fontSize={fontSize.lg}>collision</Text>}
       <ambientLight intensity={9} />
 
       <OrbitControls />
 
       <Spaceship />
       {/* <Asteroid /> */}
-      <Floor />
+      {/* <Floor /> */}
+      <FloorMemoized />
     </Canvas>
   );
 }
