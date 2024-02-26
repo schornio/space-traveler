@@ -24,7 +24,7 @@ type GLTFResult = GLTF & {
   };
 };
 
-export function Asteroid(props: JSX.IntrinsicElements["group"]) {
+export function Asteroid() {
   const { nodes, materials } = useGLTF(
     `${PATH_3D_MODELS}/asteroidOptimized-transformed.glb`
   ) as GLTFResult;
@@ -39,7 +39,7 @@ export function Asteroid(props: JSX.IntrinsicElements["group"]) {
   });
 
   return (
-    <group {...props} dispose={null}>
+    <group dispose={null}>
       <mesh
         ref={ref}
         geometry={nodes.Object_2.geometry}

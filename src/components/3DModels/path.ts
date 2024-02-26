@@ -1,1 +1,1 @@
-export const PATH_3D_MODELS = "public/models";
+export const PATH_3D_MODELS = "/models";

@@ -15,6 +15,8 @@ import { toRotation } from "../../utils/toRotation";
 import { toPosition } from "../../utils/toPosition";
 import { PATH_3D_MODELS } from "./path";
 import { schornColors } from "../../constants/schornColors";
+import { useEffect, useRef, useState } from "react";
+import { useFrame } from "@react-three/fiber";
 
 type GLTFResult = GLTF & {
   nodes: {
@@ -31,14 +33,90 @@ type GLTFResult = GLTF & {
   };
 };
 
-export function Spaceship(props: JSX.IntrinsicElements["group"]) {
+export function Spaceship() {
   const { nodes, materials } = useGLTF(
     `${PATH_3D_MODELS}/spaceshipOptimized-transformed.glb`
   ) as GLTFResult;
+  const ref = useRef<THREE.Group | null>(null);
+  const [movement, setMovement] = useState({
+    up: false,
+    down: false,
+    left: false,
+    right: false,
+  });
+  const speed = 1;
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      switch (e.key) {
+        case "w":
+          setMovement((prev) => ({ ...prev, up: true }));
+          break;
+        case "s":
+          setMovement((prev) => ({ ...prev, down: true }));
+          break;
+        case "a":
+          setMovement((prev) => ({ ...prev, left: true }));
+          break;
+        case "d":
+          setMovement((prev) => ({ ...prev, right: true }));
+          break;
+      }
+    };
+
+    const handleKeyUp = (e: KeyboardEvent) => {
+      switch (e.key) {
+        case "w":
+          setMovement((prev) => ({ ...prev, up: false }));
+          break;
+        case "s":
+          setMovement((prev) => ({ ...prev, down: false }));
+          break;
+        case "a":
+          setMovement((prev) => ({ ...prev, left: false }));
+          break;
+        case "d":
+          setMovement((prev) => ({ ...prev, right: false }));
+          break;
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    window.addEventListener("keyup", handleKeyUp);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+      window.removeEventListener("keyup", handleKeyUp);
+    };
+  }, []);
+
+  useFrame(() => {
+    if (ref.current) {
+      const delta = speed / 10;
+      const { up, down, left, right } = movement;
+
+      if (up) {
+        ref.current.position.y += delta;
+        ref.current.rotation.y -= 0.001;
+      }
+      if (down) {
+        ref.current.position.y -= delta;
+        ref.current.rotation.y += 0.001;
+      }
+      if (left) {
+        ref.current.position.x -= delta;
+        ref.current.rotation.y += 0.005;
+      }
+      if (right) {
+        ref.current.position.x += delta;
+        ref.current.rotation.y -= 0.005;
+      }
+    }
+  });
 
   return (
     <group
-      {...props}
+      ref={ref}
       dispose={null}
       scale={0.4}
       position={toPosition({
