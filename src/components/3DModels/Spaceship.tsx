@@ -15,9 +15,10 @@ import { toRotation } from "../../utils/toRotation";
 import { toPosition } from "../../utils/toPosition";
 import { PATH_3D_MODELS } from "./path";
 import { schornColors } from "../../constants/schornColors";
-import { useEffect, useRef, useState } from "react";
+import { KeyboardEvent, useEffect, useRef, useState } from "react";
 import { useFrame } from "@react-three/fiber";
-import { Laser } from "./Laser";
+import { Laser, LaserProps } from "./Laser";
+import { fromPixelsToMeters } from "../../utils/fromPixelsToMeters";
 
 type GLTFResult = GLTF & {
   nodes: {
@@ -46,10 +47,12 @@ export function Spaceship() {
     right: false,
   });
   const speed = 1;
-  const [lasers, setLasers] = useState([]);
+  const [lasers, setLasers] = useState<LaserProps[]>([]);
 
   useEffect(() => {
     const handleKeyDown = (e) => {
+      console.log("I was pressed");
+
       switch (e.key) {
         case "w":
           setMovement((m) => ({ ...m, up: true }));
@@ -65,6 +68,7 @@ export function Spaceship() {
           break;
       }
     };
+
     const handleKeyUp = (e) => {
       switch (e.key) {
         case "w":
@@ -84,83 +88,105 @@ export function Spaceship() {
 
     window.addEventListener("keydown", handleKeyDown);
     window.addEventListener("keyup", handleKeyUp);
+
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
       window.removeEventListener("keyup", handleKeyUp);
     };
   }, []);
 
-  // Handle laser firing
   useEffect(() => {
     const fireLaser = (e) => {
       if (e.code === "Space" && ref.current) {
-        const { x, y, z } = ref.current.position;
+        const currentPosition = ref.current.position;
+        ref.current.getWorldPosition(currentPosition);
+
         setLasers((lasers) => [
           ...lasers,
           {
-            id: Math.random(),
-            position: new THREE.Vector3(x, y, z),
-            direction: new THREE.Vector3(0, 0, -1),
+            id: `laser-${lasers.length}`,
+            position: currentPosition,
           },
         ]);
       }
     };
 
     window.addEventListener("keydown", fireLaser);
+
     return () => window.removeEventListener("keydown", fireLaser);
   }, []);
 
-  // Update spaceship position
   useFrame(() => {
     if (ref.current) {
       const delta = speed / 10;
-      if (movement.up) ref.current.position.y += delta;
-      if (movement.down) ref.current.position.y -= delta;
-      if (movement.left) ref.current.position.x -= delta;
-      if (movement.right) ref.current.position.x += delta;
+      let newPositionY = ref.current.position.y;
+      let newPositionX = ref.current.position.x;
+
+      if (movement.up) {
+        newPositionY += delta;
+      }
+      if (movement.down) {
+        newPositionY -= delta;
+      }
+      if (movement.left) {
+        newPositionX -= delta;
+      }
+      if (movement.right) {
+        newPositionX += delta;
+      }
+
+      const windowHalfX = fromPixelsToMeters(window.innerWidth / 2);
+      const windowHalfY = fromPixelsToMeters(window.innerHeight / 2);
+
+      newPositionX = Math.max(
+        -windowHalfX,
+        Math.min(windowHalfX, newPositionX)
+      );
+      newPositionY = Math.max(
+        -windowHalfY,
+        Math.min(windowHalfY, newPositionY)
+      );
+
+      ref.current.position.y = newPositionY;
+      ref.current.position.x = newPositionX;
     }
   });
 
   return (
-    <group
-      ref={ref}
-      dispose={null}
-      scale={0.4}
-      position={toPosition({
-        positionBottom: 3,
-        positionIn: 6,
-      })}
-      rotation={toRotation({
-        rotationXInDeg: -10,
-        rotationYInRad: -Math.PI / 2,
-      })}
-    >
-      <mesh
-        geometry={nodes.Cube001_Material007_0.geometry}
-        material={materials["Material.007"]}
-        // scale={16.453}
-      />
-      <mesh
-        geometry={nodes.Cube001_Engines_0.geometry}
-        material={materials.Engines}
-        // scale={16.453}
-      />
-      <mesh
-        geometry={nodes.Cube001_Glass_0.geometry}
-        material={materials.Glass}
-        // scale={16.453}
-      />
-      <mesh
-        geometry={nodes.Cube001_Weapons_0.geometry}
-        material={materials.Weapons}
-      />
+    <group>
+      <group
+        ref={ref}
+        dispose={null}
+        scale={0.4}
+        position={toPosition({
+          positionBottom: 3,
+          positionIn: 6,
+        })}
+        rotation={toRotation({
+          rotationXInDeg: -10,
+          rotationYInRad: -Math.PI / 2,
+        })}
+      >
+        <mesh
+          geometry={nodes.Cube001_Material007_0.geometry}
+          material={materials["Material.007"]}
+        />
+        <mesh
+          geometry={nodes.Cube001_Engines_0.geometry}
+          material={materials.Engines}
+        />
+        <mesh
+          geometry={nodes.Cube001_Glass_0.geometry}
+          material={materials.Glass}
+        />
+        <mesh
+          geometry={nodes.Cube001_Weapons_0.geometry}
+          material={materials.Weapons}
+        />
+      </group>
 
       {lasers.map((laser) => (
-        <Laser
-          key={laser.id}
-          position={laser.position}
-          direction={laser.direction}
-        />
+        <Laser key={laser.id} id={laser.id} position={laser.position} />
       ))}
     </group>
   );

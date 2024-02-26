@@ -1,36 +1,46 @@
 import { useFrame } from "@react-three/fiber";
-import { useRef } from "react";
-import { Group } from "three";
+import { useEffect, useRef } from "react";
+import { Group, Vector3 } from "three";
 import { toRotation } from "../../utils/toRotation";
-import { toPosition } from "../../utils/toPosition";
+import { Position, toPosition } from "../../utils/toPosition";
 import { schornColors } from "../../constants/schornColors";
 
 const SPEED = 1;
 
-export function Laser() {
-  const ref = useRef<Group | null>(null);
+export type LaserProps = {
+  id: string;
+  position: Vector3;
+};
+
+const SPACESHIP_WIDTH = 5;
+
+export function Laser({ id, position }: LaserProps) {
+  const ref = useRef<Group>(null);
+
+  useEffect(() => {
+    if (ref.current) {
+      ref.current.position.copy(position);
+    }
+  }, [position]);
+
   useFrame(() => {
     if (ref.current) {
-      ref.current.position.x -= SPEED;
+      ref.current.position.z -= SPEED;
     }
   });
 
   return (
     <group
       ref={ref}
-      position={toPosition({
-        positionTop: 0.1,
-        positionLeft: 4,
-      })}
       rotation={toRotation({
         rotationXInRad: Math.PI / 2,
-        rotationZInRad: Math.PI / 2,
       })}
+      userData={{ id }}
     >
       {/* Left */}
       <mesh
         position={toPosition({
-          positionLeft: 6,
+          positionLeft: SPACESHIP_WIDTH / 2,
         })}
       >
         <cylinderGeometry args={[0.1, 0.1, 5, 32]} />
@@ -40,7 +50,7 @@ export function Laser() {
       {/* Right */}
       <mesh
         position={toPosition({
-          positionRight: 6,
+          positionRight: SPACESHIP_WIDTH / 2,
         })}
       >
         <cylinderGeometry args={[0.1, 0.1, 5, 32]} />

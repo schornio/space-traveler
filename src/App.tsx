@@ -11,7 +11,7 @@ function App() {
     <Canvas>
       <ambientLight intensity={9} />
 
-      <OrbitControls />
+      {/* <OrbitControls /> */}
 
       <Spaceship />
       {/* <Asteroid /> */}
