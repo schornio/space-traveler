@@ -1,0 +1,16 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  overflow: hidden;
+  height: 100vh; /* Set height to 100% of the viewport height */
+  background-color: #111;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* width: 100vw; Set width to 100% of the viewport width */
+  background-color: red;
+}
