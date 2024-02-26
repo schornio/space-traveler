@@ -2,7 +2,7 @@ import { useFrame } from "@react-three/fiber";
 import { useEffect, useRef } from "react";
 import { Group, Vector3 } from "three";
 import { toRotation } from "../../utils/toRotation";
-import { Position, toPosition } from "../../utils/toPosition";
+import { toPosition } from "../../utils/toPosition";
 import { schornColors } from "../../constants/schornColors";
 
 const SPEED = 1;

@@ -1,15 +1,16 @@
-import { useRef } from "react";
+import { RefObject, createRef, useEffect, useRef, useState } from "react";
 import { toPosition } from "../../utils/toPosition";
 import { toRotation } from "../../utils/toRotation";
-import { Group, Mesh } from "three";
+import { Group, Mesh, Object3D } from "three";
 import { useFrame } from "@react-three/fiber";
 import { schornColors } from "../../constants/schornColors";
+import { useGameStore } from "../../store/useGameStore";
 
 const RADIUS = 100;
 const WIDTH = 400;
 const RADIUS_SEGMENTS = 20;
 
-const QUANTITY_ASTEROIDS = 50;
+const QUANTITY_ASTEROIDS = 200;
 
 export function Floor() {
   const ref = useRef<Group>(null);
@@ -48,18 +49,22 @@ export function Floor() {
 }
 
 function AbstractAsteroids() {
-  const ref = useRef<Mesh>(null);
+  const [asteroids, setAsteroids] = useState<RefObject<Mesh>[]>([]);
+  const setStoreAsteroidsRef = useGameStore((state) => state.setAsteroidsRef);
 
-  useFrame(() => {
-    if (ref.current) {
-      ref.current.rotation.y += 0.1;
-      ref.current.rotation.x += 0.1;
-    }
-  });
+  useEffect(() => {
+    const asteroidsRef = Array.from({ length: QUANTITY_ASTEROIDS }, () =>
+      createRef<Mesh>()
+    );
+
+    setStoreAsteroidsRef(asteroidsRef);
+
+    setAsteroids(asteroidsRef);
+  }, []);
 
   return (
     <group>
-      {Array.from({ length: QUANTITY_ASTEROIDS }).map((_, index) => {
+      {asteroids.map((ref, index) => {
         const positioningRadius = RADIUS + 10;
         const angle = Math.random() * Math.PI * 2;
         const height = (Math.random() * WIDTH) / 8;
@@ -69,7 +74,7 @@ function AbstractAsteroids() {
 
         return (
           <mesh
-            ref={ref}
+            ref={ref} // Step 2: Assign the ref to the mesh
             key={index}
             position={[positionX, height, positionZ]}
             scale={[scale, scale, scale]}

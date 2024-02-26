@@ -16,6 +16,7 @@ import { toPosition } from "../../utils/toPosition";
 import { PATH_3D_MODELS } from "./path";
 import { Laser } from "./Laser";
 import { useSpaceship } from "../../hooks/useSpaceship";
+import { useGameStore } from "../../store/useGameStore";
 
 type GLTFResult = GLTF & {
   nodes: {
@@ -37,6 +38,9 @@ export function Spaceship() {
     `${PATH_3D_MODELS}/spaceshipOptimized-transformed.glb`
   ) as GLTFResult;
   const { ref, lasers } = useSpaceship();
+  const setSpaceshipRef = useGameStore((state) => state.setSpaceshipRef);
+
+  setSpaceshipRef(ref);
 
   return (
     <group>
