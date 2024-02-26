@@ -17,6 +17,7 @@ import { PATH_3D_MODELS } from "./path";
 import { schornColors } from "../../constants/schornColors";
 import { useEffect, useRef, useState } from "react";
 import { useFrame } from "@react-three/fiber";
+import { Laser } from "./Laser";
 
 type GLTFResult = GLTF & {
   nodes: {
@@ -45,72 +46,78 @@ export function Spaceship() {
     right: false,
   });
   const speed = 1;
+  const [lasers, setLasers] = useState([]);
 
   useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
+    const handleKeyDown = (e) => {
       switch (e.key) {
         case "w":
-          setMovement((prev) => ({ ...prev, up: true }));
+          setMovement((m) => ({ ...m, up: true }));
           break;
         case "s":
-          setMovement((prev) => ({ ...prev, down: true }));
+          setMovement((m) => ({ ...m, down: true }));
           break;
         case "a":
-          setMovement((prev) => ({ ...prev, left: true }));
+          setMovement((m) => ({ ...m, left: true }));
           break;
         case "d":
-          setMovement((prev) => ({ ...prev, right: true }));
+          setMovement((m) => ({ ...m, right: true }));
           break;
       }
     };
-
-    const handleKeyUp = (e: KeyboardEvent) => {
+    const handleKeyUp = (e) => {
       switch (e.key) {
         case "w":
-          setMovement((prev) => ({ ...prev, up: false }));
+          setMovement((m) => ({ ...m, up: false }));
           break;
         case "s":
-          setMovement((prev) => ({ ...prev, down: false }));
+          setMovement((m) => ({ ...m, down: false }));
           break;
         case "a":
-          setMovement((prev) => ({ ...prev, left: false }));
+          setMovement((m) => ({ ...m, left: false }));
           break;
         case "d":
-          setMovement((prev) => ({ ...prev, right: false }));
+          setMovement((m) => ({ ...m, right: false }));
           break;
       }
     };
 
     window.addEventListener("keydown", handleKeyDown);
     window.addEventListener("keyup", handleKeyUp);
-
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
       window.removeEventListener("keyup", handleKeyUp);
     };
   }, []);
 
+  // Handle laser firing
+  useEffect(() => {
+    const fireLaser = (e) => {
+      if (e.code === "Space" && ref.current) {
+        const { x, y, z } = ref.current.position;
+        setLasers((lasers) => [
+          ...lasers,
+          {
+            id: Math.random(),
+            position: new THREE.Vector3(x, y, z),
+            direction: new THREE.Vector3(0, 0, -1),
+          },
+        ]);
+      }
+    };
+
+    window.addEventListener("keydown", fireLaser);
+    return () => window.removeEventListener("keydown", fireLaser);
+  }, []);
+
+  // Update spaceship position
   useFrame(() => {
     if (ref.current) {
       const delta = speed / 10;
-      const { up, down, left, right } = movement;
-
-      if (up) {
-        ref.current.position.y += delta;
-        ref.current.rotation.y -= 0.001;
-      }
-      if (down) {
-        ref.current.position.y -= delta;
-        ref.current.rotation.y += 0.001;
-      }
-      if (left) {
-        ref.current.position.x -= delta;
-        ref.current.rotation.y += 0.005;
-      }
-      if (right) {
-        ref.current.position.x += delta;
-        ref.current.rotation.y -= 0.005;
-      }
+      if (movement.up) ref.current.position.y += delta;
+      if (movement.down) ref.current.position.y -= delta;
+      if (movement.left) ref.current.position.x -= delta;
+      if (movement.right) ref.current.position.x += delta;
     }
   });
 
@@ -147,6 +154,14 @@ export function Spaceship() {
         geometry={nodes.Cube001_Weapons_0.geometry}
         material={materials.Weapons}
       />
+
+      {lasers.map((laser) => (
+        <Laser
+          key={laser.id}
+          position={laser.position}
+          direction={laser.direction}
+        />
+      ))}
     </group>
   );
 }
