@@ -20,7 +20,7 @@ export function createAsteroids(quantity: number): AsteroidState[] {
       },
       position: { positionLeft, positionTop, positionIn },
       size: scale,
-      isDestroyed: false,
+      speed: Math.random() * 0.1,
       id: Math.random().toString(36).substring(7),
     };
   });

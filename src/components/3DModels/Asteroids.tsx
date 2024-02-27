@@ -33,8 +33,9 @@ export function Asteroids() {
   ) as GLTFResult;
 
   useFrame(() => {
-    asteroids.forEach(({ ref, rotationSpeed }) => {
+    asteroids.forEach(({ ref, rotationSpeed, speed }) => {
       if (ref.current) {
+        ref.current.rotation.z += speed;
         ref.current.rotation.x += rotationSpeed.x;
         ref.current.rotation.y += rotationSpeed.y;
       }

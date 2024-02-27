@@ -4,8 +4,14 @@ import { LaserProps } from "../components/3DModels/Laser";
 import { fromPixelsToMeters } from "../utils/fromPixelsToMeters";
 import { useGameStore } from "../store/useGameStore";
 
+const POSSIBLE_LASER_HIT_TIME = 3000;
+const LASER_CHECK_HIT_ITERATION = 100;
+
 export function useSpaceship() {
-  const spaceshipRef = useGameStore((state) => state.spaceship.ref);
+  const { spaceshipRef, isAsteroidHitByLaser } = useGameStore((state) => ({
+    spaceshipRef: state.spaceship.ref,
+    isAsteroidHitByLaser: state.isAsteroidHitByLaser,
+  }));
   const speed = 1;
   const [movement, setMovement] = useState({
     up: false,
@@ -57,7 +63,7 @@ export function useSpaceship() {
       window.removeEventListener("keydown", handleKeyDown);
       window.removeEventListener("keyup", handleKeyUp);
     };
-  }, []);
+  }, [spaceshipRef]);
 
   useFrame(() => {
     if (spaceshipRef.current) {
@@ -108,6 +114,14 @@ export function useSpaceship() {
             position: currentPosition,
           },
         ]);
+
+        const intervalId = setInterval(() => {
+          isAsteroidHitByLaser();
+        }, LASER_CHECK_HIT_ITERATION);
+
+        setTimeout(() => {
+          clearInterval(intervalId);
+        }, POSSIBLE_LASER_HIT_TIME);
       }
     };
 
