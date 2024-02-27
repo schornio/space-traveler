@@ -13,11 +13,8 @@ import { useGLTF } from "@react-three/drei";
 import { GLTF } from "three-stdlib";
 import { PATH_3D_MODELS } from "./path";
 import { useFrame } from "@react-three/fiber";
-import { RefObject, createRef, useEffect, useState } from "react";
 import { useGameStore } from "../../store/useGameStore";
 import { toPosition } from "../../utils/toPosition";
-
-const QUANTITY_ASTEROIDS = 200;
 
 type GLTFResult = GLTF & {
   nodes: {
@@ -28,32 +25,12 @@ type GLTFResult = GLTF & {
   };
 };
 
-type Asteroid = {
-  ref: RefObject<THREE.Mesh>;
-  rotationSpeed: {
-    x: number;
-    y: number;
-  };
-};
-
-// type AsteroidsProps = {
-//   floorRadius: number;
-//   floorWidth: number;
-// };
-
-export function Asteroids({ floorRadius, floorWidth }: AsteroidsProps) {
+export function Asteroids() {
   const asteroids = useGameStore((state) => state.asteroids);
-  const setStoreAsteroidsRef = useGameStore((state) => state.setAsteroidsRef);
-
-  console.log("asteroids", asteroids);
 
   const { nodes, materials } = useGLTF(
     `${PATH_3D_MODELS}/asteroidOptimized-transformed.glb`
   ) as GLTFResult;
-
-  useEffect(() => {
-    setStoreAsteroidsRef(asteroids.map(({ ref }) => ref));
-  }, []);
 
   useFrame(() => {
     asteroids.forEach(({ ref, rotationSpeed }) => {

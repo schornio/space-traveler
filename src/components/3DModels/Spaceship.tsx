@@ -17,7 +17,6 @@ import { PATH_3D_MODELS } from "./path";
 import { Laser } from "./Laser";
 import { useSpaceship } from "../../hooks/useSpaceship";
 import { useGameStore } from "../../store/useGameStore";
-import { useEffect } from "react";
 
 type GLTFResult = GLTF & {
   nodes: {
@@ -38,20 +37,13 @@ export function Spaceship() {
   const { nodes, materials } = useGLTF(
     `${PATH_3D_MODELS}/spaceshipOptimized-transformed.glb`
   ) as GLTFResult;
-  const { ref, lasers } = useSpaceship();
-  const setSpaceshipRef = useGameStore((state) => state.setSpaceshipRef);
-
-  useEffect(() => {
-    if (ref.current) {
-      setSpaceshipRef(ref);
-    }
-  }, [ref.current]);
+  const spaceshipRef = useGameStore((state) => state.spaceship.ref);
+  const lasers = useSpaceship();
 
   return (
     <group>
-      {/* FIX THE REF NOT LOADING RELIABLY */}
       <group
-        ref={ref}
+        ref={spaceshipRef}
         dispose={null}
         scale={0.4}
         position={toPosition({

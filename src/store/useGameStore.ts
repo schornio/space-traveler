@@ -1,12 +1,20 @@
 import { RefObject } from "react";
-import { Box3, Group, Mesh, Vector3 } from "three";
+import { Box3, Group, Mesh } from "three";
 import { create } from "zustand";
 import { createAsteroids } from "../utils/createAsteroids";
 import { Position } from "../utils/toPosition";
+import { Rotation } from "../utils/toRotation";
+import { createSpaceship } from "../utils/createSpaceship";
 
 type LaserWithTimeStamp = {
   ref: RefObject<Group>;
   timeStamp: number;
+};
+
+export type SpaceshipState = {
+  ref: RefObject<Group>;
+  position: Position;
+  rotation: Rotation;
 };
 
 export type AsteroidState = {
@@ -21,12 +29,10 @@ export type AsteroidState = {
 const TIME_LASER_ACTIVE_IN_MS = 5000;
 
 type GameStore = {
-  spaceshipRef: RefObject<Group> | null;
-  setSpaceshipRef: (ref: RefObject<Group>) => void;
+  spaceship: SpaceshipState;
 
   asteroids: AsteroidState[];
-  asteroidsRef: RefObject<Mesh>[];
-  setAsteroidsRef: (refs: RefObject<Mesh>[]) => void;
+  destroyAsteroid: (id: string) => void;
 
   lasersRef: LaserWithTimeStamp[];
   setLasersRef: (newRef: RefObject<Group>) => void;
@@ -40,20 +46,21 @@ type GameStore = {
 };
 
 const initialAsteroids = createAsteroids(200);
+const spaceship = createSpaceship();
 
 export const useGameStore = create<GameStore>((set) => ({
   asteroids: initialAsteroids.map((asteroid) => ({
     ...asteroid,
   })),
 
-  spaceshipRef: null,
-  setSpaceshipRef: (ref) => {
-    set({ spaceshipRef: ref });
-  },
+  spaceship: spaceship,
 
-  asteroidsRef: [],
-  setAsteroidsRef: (refs) => {
-    set({ asteroidsRef: refs });
+  destroyAsteroid(id) {
+    const updatedAsteroids = useGameStore
+      .getState()
+      .asteroids.filter((asteroid) => asteroid.id !== id);
+
+    set({ asteroids: updatedAsteroids });
   },
 
   lasersRef: [],
@@ -82,8 +89,10 @@ export const useGameStore = create<GameStore>((set) => ({
   score: 0,
 
   isShipHitByAsteroid: () => {
-    const spaceshipRef = useGameStore.getState().spaceshipRef;
-    const asteroidsRef = useGameStore.getState().asteroidsRef;
+    const spaceshipRef = useGameStore.getState().spaceship.ref;
+    const asteroidsRef = useGameStore
+      .getState()
+      .asteroids.map(({ ref }) => ref);
 
     if (!spaceshipRef || !spaceshipRef.current) {
       return { isHit: false };
@@ -104,17 +113,18 @@ export const useGameStore = create<GameStore>((set) => ({
   },
 
   isAsteroidHitByLaser: () => {
-    const lasersRef = useGameStore.getState().lasersRef;
-    const asteroidsRef = useGameStore.getState().asteroidsRef;
+    const { lasersRef, asteroids, destroyAsteroid } = useGameStore.getState();
 
     for (let { ref: laserRef } of lasersRef) {
       if (laserRef.current) {
         const laserBox = new Box3().setFromObject(laserRef.current);
 
-        for (let asteroidRef of asteroidsRef) {
+        for (let { ref: asteroidRef, id: asteroidId } of asteroids) {
           if (asteroidRef.current) {
             const asteroidBox = new Box3().setFromObject(asteroidRef.current);
+
             if (laserBox.intersectsBox(asteroidBox)) {
+              destroyAsteroid(asteroidId);
               return { isHit: true };
             }
           }

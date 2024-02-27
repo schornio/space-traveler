@@ -1,11 +1,11 @@
 import { useFrame } from "@react-three/fiber";
-import { useEffect, useRef, useState } from "react";
-import { Group } from "three";
+import { useEffect, useState } from "react";
 import { LaserProps } from "../components/3DModels/Laser";
 import { fromPixelsToMeters } from "../utils/fromPixelsToMeters";
+import { useGameStore } from "../store/useGameStore";
 
 export function useSpaceship() {
-  const ref = useRef<Group>(null);
+  const spaceshipRef = useGameStore((state) => state.spaceship.ref);
   const speed = 1;
   const [movement, setMovement] = useState({
     up: false,
@@ -60,10 +60,10 @@ export function useSpaceship() {
   }, []);
 
   useFrame(() => {
-    if (ref.current) {
+    if (spaceshipRef.current) {
       const delta = speed / 10;
-      let newPositionY = ref.current.position.y;
-      let newPositionX = ref.current.position.x;
+      let newPositionY = spaceshipRef.current.position.y;
+      let newPositionX = spaceshipRef.current.position.x;
 
       if (movement.up) {
         newPositionY += delta;
@@ -90,16 +90,16 @@ export function useSpaceship() {
         Math.min(windowHalfY, newPositionY)
       );
 
-      ref.current.position.y = newPositionY;
-      ref.current.position.x = newPositionX;
+      spaceshipRef.current.position.y = newPositionY;
+      spaceshipRef.current.position.x = newPositionX;
     }
   });
 
   useEffect(() => {
     const fireLaser = (e: KeyboardEvent) => {
-      if (e.code === "Space" && ref.current) {
-        const currentPosition = ref.current.position;
-        ref.current.getWorldPosition(currentPosition);
+      if (e.code === "Space" && spaceshipRef.current) {
+        const currentPosition = spaceshipRef.current.position;
+        spaceshipRef.current.getWorldPosition(currentPosition);
 
         setLasers((lasers) => [
           ...lasers,
@@ -116,5 +116,5 @@ export function useSpaceship() {
     return () => window.removeEventListener("keydown", fireLaser);
   }, []);
 
-  return { ref, lasers };
+  return lasers;
 }

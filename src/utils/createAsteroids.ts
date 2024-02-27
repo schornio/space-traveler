@@ -1,5 +1,5 @@
 import { createRef } from "react";
-import { Mesh, Vector3 } from "three";
+import { Mesh } from "three";
 import { FLOOR_RADIUS, FLOOR_WIDTH } from "../components/Floor";
 import { AsteroidState } from "../store/useGameStore";
 
