@@ -5,12 +5,14 @@ import { Group, Mesh, Object3D } from "three";
 import { useFrame } from "@react-three/fiber";
 import { schornColors } from "../../constants/schornColors";
 import { useGameStore } from "../../store/useGameStore";
+import { useGLTF } from "@react-three/drei";
+import { PATH_3D_MODELS } from "../3DModels/path";
+import { GLTF } from "three-stdlib";
+import { Asteroids } from "../3DModels/Asteroids";
 
 const RADIUS = 100;
 const WIDTH = 400;
 const RADIUS_SEGMENTS = 20;
-
-const QUANTITY_ASTEROIDS = 200;
 
 export function Floor() {
   const ref = useRef<Group>(null);
@@ -43,47 +45,7 @@ export function Floor() {
         />
       </mesh>
 
-      <AbstractAsteroids />
-    </group>
-  );
-}
-
-function AbstractAsteroids() {
-  const [asteroids, setAsteroids] = useState<RefObject<Mesh>[]>([]);
-  const setStoreAsteroidsRef = useGameStore((state) => state.setAsteroidsRef);
-
-  useEffect(() => {
-    const asteroidsRef = Array.from({ length: QUANTITY_ASTEROIDS }, () =>
-      createRef<Mesh>()
-    );
-
-    setStoreAsteroidsRef(asteroidsRef);
-
-    setAsteroids(asteroidsRef);
-  }, []);
-
-  return (
-    <group>
-      {asteroids.map((ref, index) => {
-        const positioningRadius = RADIUS + 10;
-        const angle = Math.random() * Math.PI * 2;
-        const height = (Math.random() * WIDTH) / 8;
-        const positionX = Math.cos(angle) * positioningRadius;
-        const positionZ = Math.sin(angle) * positioningRadius;
-        const scale = Math.random() * 0.5 + 0.5;
-
-        return (
-          <mesh
-            ref={ref} // Step 2: Assign the ref to the mesh
-            key={index}
-            position={[positionX, height, positionZ]}
-            scale={[scale, scale, scale]}
-          >
-            <dodecahedronGeometry args={[1, 0]} />
-            <meshStandardMaterial color={schornColors.royalBlue} />
-          </mesh>
-        );
-      })}
+      <Asteroids floorRadius={RADIUS} floorWidth={WIDTH} />
     </group>
   );
 }
