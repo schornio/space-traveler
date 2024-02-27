@@ -4,10 +4,12 @@ import { Center, OrbitControls, Text, Text3D } from "@react-three/drei";
 import { Spaceship } from "./components/3DModels/Spaceship";
 import { Floor } from "./components/Floor";
 import { useGameStore } from "./store/useGameStore";
-import { memo, useEffect, useRef, useState } from "react";
+import { memo, useEffect } from "react";
 import { fontSize } from "./utils/fontSizes";
 import { schornColors } from "./constants/schornColors";
 import { toPosition } from "./utils/toPosition";
+
+const COLLISION_TIME_INTERVAL = 500;
 
 const FloorMemoized = memo(Floor);
 
@@ -23,7 +25,7 @@ function App() {
   useEffect(() => {
     const interval = setInterval(() => {
       isShipHitByAsteroid();
-    }, 200);
+    }, COLLISION_TIME_INTERVAL);
 
     return () => clearInterval(interval);
   }, [isShipHitByAsteroid]);
