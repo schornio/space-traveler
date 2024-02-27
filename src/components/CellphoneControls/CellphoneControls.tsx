@@ -5,6 +5,8 @@ export function CellphoneControls() {
       <button>👇</button>
       <button>👈</button>
       <button>👉</button>
+
+      <button>Shoot</button>
     </div>
   );
 }
