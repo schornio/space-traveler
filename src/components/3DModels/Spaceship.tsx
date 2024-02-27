@@ -14,7 +14,10 @@ import { GLTF } from "three-stdlib";
 import { toRotation } from "../../utils/toRotation";
 import { toPosition } from "../../utils/toPosition";
 import { PATH_3D_MODELS } from "./path";
-import { schornColors } from "../../constants/schornColors";
+import { Laser } from "./Laser";
+import { useSpaceship } from "../../hooks/useSpaceship";
+import { useGameStore } from "../../store/useGameStore";
+import { useEffect } from "react";
 
 type GLTFResult = GLTF & {
   nodes: {
@@ -31,44 +34,56 @@ type GLTFResult = GLTF & {
   };
 };
 
-export function Spaceship(props: JSX.IntrinsicElements["group"]) {
+export function Spaceship() {
   const { nodes, materials } = useGLTF(
     `${PATH_3D_MODELS}/spaceshipOptimized-transformed.glb`
   ) as GLTFResult;
+  const { ref, lasers } = useSpaceship();
+  const setSpaceshipRef = useGameStore((state) => state.setSpaceshipRef);
+
+  useEffect(() => {
+    if (ref.current) {
+      setSpaceshipRef(ref);
+    }
+  }, [ref.current]);
 
   return (
-    <group
-      {...props}
-      dispose={null}
-      scale={0.4}
-      position={toPosition({
-        positionBottom: 3,
-        positionIn: 6,
-      })}
-      rotation={toRotation({
-        rotationXInDeg: -10,
-        rotationYInRad: -Math.PI / 2,
-      })}
-    >
-      <mesh
-        geometry={nodes.Cube001_Material007_0.geometry}
-        material={materials["Material.007"]}
-        // scale={16.453}
-      />
-      <mesh
-        geometry={nodes.Cube001_Engines_0.geometry}
-        material={materials.Engines}
-        // scale={16.453}
-      />
-      <mesh
-        geometry={nodes.Cube001_Glass_0.geometry}
-        material={materials.Glass}
-        // scale={16.453}
-      />
-      <mesh
-        geometry={nodes.Cube001_Weapons_0.geometry}
-        material={materials.Weapons}
-      />
+    <group>
+      {/* FIX THE REF NOT LOADING RELIABLY */}
+      <group
+        ref={ref}
+        dispose={null}
+        scale={0.4}
+        position={toPosition({
+          positionBottom: 3,
+          positionIn: 6,
+        })}
+        rotation={toRotation({
+          rotationXInDeg: -10,
+          rotationYInRad: -Math.PI / 2,
+        })}
+      >
+        <mesh
+          geometry={nodes.Cube001_Material007_0.geometry}
+          material={materials["Material.007"]}
+        />
+        <mesh
+          geometry={nodes.Cube001_Engines_0.geometry}
+          material={materials.Engines}
+        />
+        <mesh
+          geometry={nodes.Cube001_Glass_0.geometry}
+          material={materials.Glass}
+        />
+        <mesh
+          geometry={nodes.Cube001_Weapons_0.geometry}
+          material={materials.Weapons}
+        />
+      </group>
+
+      {lasers.map((laser) => (
+        <Laser key={laser.id} id={laser.id} position={laser.position} />
+      ))}
     </group>
   );
 }
