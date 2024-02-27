@@ -1,74 +1,25 @@
-import { Canvas } from "@react-three/fiber";
+import { CoreGame } from "./CoreGame";
+import { CellphoneControls } from "./components/CellphoneControls";
+import { WebControls } from "./components/WebControls";
 import "./globals.css";
-import { Center, OrbitControls, Text, Text3D } from "@react-three/drei";
-import { Spaceship } from "./components/3DModels/Spaceship";
-import { Floor } from "./components/Floor";
-import { useGameStore } from "./store/useGameStore";
-import { memo, useEffect } from "react";
-import { fontSize } from "./utils/fontSizes";
-import { schornColors } from "./constants/schornColors";
-import { toPosition } from "./utils/toPosition";
 
-const COLLISION_TIME_INTERVAL = 500;
-
-const FloorMemoized = memo(Floor);
+import { isMobileDevice } from "./utils/isMobileDevice";
 
 function App() {
-  const { healthSpaceship, score, isShipHitByAsteroid } = useGameStore(
-    (state) => ({
-      isShipHitByAsteroid: state.isShipHitByAsteroid,
-      healthSpaceship: state.healthSpaceship,
-      score: state.score,
-    })
-  );
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      isShipHitByAsteroid();
-    }, COLLISION_TIME_INTERVAL);
-
-    return () => clearInterval(interval);
-  }, [isShipHitByAsteroid]);
+  const isMobile = isMobileDevice();
 
   return (
-    <Canvas>
-      <Center
-        position={toPosition({
-          positionTop: 2,
-          positionLeft: 3,
-        })}
-      >
-        <Text3D
-          font="/neo_cybern.json"
-          size={fontSize.xl}
-          curveSegments={24}
-          scale={[1, 1, 0.2]}
-        >
-          Health: {healthSpaceship}
-          <meshStandardMaterial
-            attach="material"
-            color={schornColors.magenta}
-          />
-        </Text3D>
-      </Center>
+    <>
+      <div className="cellphone-container">
+        <h1>{isMobile ? "phone" : "pc"}</h1>
 
-      <Text
-        fontSize={fontSize.xl}
-        color={schornColors.magenta}
-        position={toPosition({
-          positionTop: 2,
-          positionRight: 3,
-        })}
-      >
-        Score: {score}
-      </Text>
-      <ambientLight intensity={9} />
+        <CellphoneControls />
+      </div>
 
-      <OrbitControls />
-
-      <Spaceship />
-      <FloorMemoized />
-    </Canvas>
+      <div className="canvas-container">
+        <CoreGame />
+      </div>
+    </>
   );
 }
 
