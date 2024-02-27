@@ -15,6 +15,7 @@ import { PATH_3D_MODELS } from "./path";
 import { useFrame } from "@react-three/fiber";
 import { RefObject, createRef, useEffect, useState } from "react";
 import { useGameStore } from "../../store/useGameStore";
+import { toPosition } from "../../utils/toPosition";
 
 const QUANTITY_ASTEROIDS = 200;
 
@@ -35,31 +36,23 @@ type Asteroid = {
   };
 };
 
-type AsteroidsProps = {
-  floorRadius: number;
-  floorWidth: number;
-};
+// type AsteroidsProps = {
+//   floorRadius: number;
+//   floorWidth: number;
+// };
 
 export function Asteroids({ floorRadius, floorWidth }: AsteroidsProps) {
-  const [asteroids, setAsteroids] = useState<Asteroid[]>([]);
+  const asteroids = useGameStore((state) => state.asteroids);
   const setStoreAsteroidsRef = useGameStore((state) => state.setAsteroidsRef);
+
+  console.log("asteroids", asteroids);
 
   const { nodes, materials } = useGLTF(
     `${PATH_3D_MODELS}/asteroidOptimized-transformed.glb`
   ) as GLTFResult;
 
   useEffect(() => {
-    const asteroidsData = Array.from({ length: QUANTITY_ASTEROIDS }, () => ({
-      ref: createRef<THREE.Mesh>(),
-      rotationSpeed: {
-        y: Math.random() * 0.004,
-        x: Math.random() * 0.002,
-      },
-    }));
-
-    setStoreAsteroidsRef(asteroidsData.map(({ ref }) => ref));
-
-    setAsteroids(asteroidsData);
+    setStoreAsteroidsRef(asteroids.map(({ ref }) => ref));
   }, []);
 
   useFrame(() => {
@@ -73,27 +66,25 @@ export function Asteroids({ floorRadius, floorWidth }: AsteroidsProps) {
 
   return (
     <group>
-      {asteroids.map(({ ref }, index) => {
-        const positioningRadius = floorRadius + 10;
-        const angle = Math.random() * Math.PI * 2;
-        const height = (Math.random() * floorWidth) / 10;
-        const positionX = Math.cos(angle) * positioningRadius;
-        const positionZ = Math.sin(angle) * positioningRadius;
-        const scale = Math.random() * 0.5 + 0.5;
-
+      {asteroids.map(({ position, size, ref }, index) => {
         return (
           <mesh
             ref={ref}
             key={index}
-            geometry={nodes.Object_2.geometry}
-            material={materials["defaultMat.003"]}
-            position={[positionX, height, positionZ]}
-            scale={[scale, scale, scale]}
-            rotation={[-Math.PI / 2, 0, 0]}
-          />
+            position={toPosition(position)}
+            scale={size}
+            // geometry={nodes.Object_2.geometry}
+            // material={materials["defaultMat.003"]}
+          >
+            <dodecahedronGeometry args={[1, 0]} />
+            <meshStandardMaterial
+              color={"white"}
+              roughness={0.5}
+              metalness={0.5}
+            />
+          </mesh>
         );
       })}
-      ;
     </group>
   );
 }

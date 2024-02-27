@@ -10,8 +10,8 @@ import { PATH_3D_MODELS } from "../3DModels/path";
 import { GLTF } from "three-stdlib";
 import { Asteroids } from "../3DModels/Asteroids";
 
-const RADIUS = 100;
-const WIDTH = 400;
+export const FLOOR_RADIUS = 100;
+export const FLOOR_WIDTH = 400;
 const RADIUS_SEGMENTS = 20;
 
 export function Floor() {
@@ -36,7 +36,9 @@ export function Floor() {
       })}
     >
       <mesh>
-        <cylinderGeometry args={[RADIUS, RADIUS, WIDTH, RADIUS_SEGMENTS]} />
+        <cylinderGeometry
+          args={[FLOOR_RADIUS, FLOOR_RADIUS, FLOOR_WIDTH, RADIUS_SEGMENTS]}
+        />
         <meshStandardMaterial
           color={schornColors.magenta}
           wireframe
@@ -45,7 +47,7 @@ export function Floor() {
         />
       </mesh>
 
-      <Asteroids floorRadius={RADIUS} floorWidth={WIDTH} />
+      <Asteroids />
     </group>
   );
 }

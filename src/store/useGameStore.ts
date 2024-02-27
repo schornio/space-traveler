@@ -1,18 +1,30 @@
 import { RefObject } from "react";
-import { Box3, Group, Mesh } from "three";
+import { Box3, Group, Mesh, Vector3 } from "three";
 import { create } from "zustand";
+import { createAsteroids } from "../utils/createAsteroids";
+import { Position } from "../utils/toPosition";
 
 type LaserWithTimeStamp = {
   ref: RefObject<Group>;
   timeStamp: number;
 };
 
-const TIME_LASER_ALIVE_IN_MS = 5000;
+export type AsteroidState = {
+  ref: RefObject<Mesh>;
+  id: string;
+  position: Position;
+  size: number;
+  rotationSpeed: { x: number; y: number };
+  isDestroyed: boolean;
+};
+
+const TIME_LASER_ACTIVE_IN_MS = 5000;
 
 type GameStore = {
   spaceshipRef: RefObject<Group> | null;
   setSpaceshipRef: (ref: RefObject<Group>) => void;
 
+  asteroids: AsteroidState[];
   asteroidsRef: RefObject<Mesh>[];
   setAsteroidsRef: (refs: RefObject<Mesh>[]) => void;
 
@@ -27,7 +39,13 @@ type GameStore = {
   isAsteroidHitByLaser: () => { isHit: boolean };
 };
 
+const initialAsteroids = createAsteroids(200);
+
 export const useGameStore = create<GameStore>((set) => ({
+  asteroids: initialAsteroids.map((asteroid) => ({
+    ...asteroid,
+  })),
+
   spaceshipRef: null,
   setSpaceshipRef: (ref) => {
     set({ spaceshipRef: ref });
@@ -43,7 +61,7 @@ export const useGameStore = create<GameStore>((set) => ({
   cleanUpLasersRef() {
     set((state) => ({
       lasersRef: state.lasersRef.filter(
-        ({ timeStamp }) => Date.now() - timeStamp < TIME_LASER_ALIVE_IN_MS
+        ({ timeStamp }) => Date.now() - timeStamp < TIME_LASER_ACTIVE_IN_MS
       ),
     }));
   },
@@ -87,13 +105,9 @@ export const useGameStore = create<GameStore>((set) => ({
 
   isAsteroidHitByLaser: () => {
     const lasersRef = useGameStore.getState().lasersRef;
-    console.log("lasersRef", lasersRef);
-
     const asteroidsRef = useGameStore.getState().asteroidsRef;
 
     for (let { ref: laserRef } of lasersRef) {
-      console.log("laserRef", laserRef);
-
       if (laserRef.current) {
         const laserBox = new Box3().setFromObject(laserRef.current);
 
@@ -101,8 +115,6 @@ export const useGameStore = create<GameStore>((set) => ({
           if (asteroidRef.current) {
             const asteroidBox = new Box3().setFromObject(asteroidRef.current);
             if (laserBox.intersectsBox(asteroidBox)) {
-              console.log("asteroid hit");
-
               return { isHit: true };
             }
           }
