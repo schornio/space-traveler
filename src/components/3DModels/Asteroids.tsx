@@ -76,7 +76,7 @@ export function Asteroids({ floorRadius, floorWidth }: AsteroidsProps) {
       {asteroids.map(({ ref }, index) => {
         const positioningRadius = floorRadius + 10;
         const angle = Math.random() * Math.PI * 2;
-        const height = (Math.random() * floorWidth) / 8;
+        const height = (Math.random() * floorWidth) / 10;
         const positionX = Math.cos(angle) * positioningRadius;
         const positionZ = Math.sin(angle) * positioningRadius;
         const scale = Math.random() * 0.5 + 0.5;

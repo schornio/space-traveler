@@ -4,6 +4,7 @@ import { Group, Vector3 } from "three";
 import { toRotation } from "../../utils/toRotation";
 import { toPosition } from "../../utils/toPosition";
 import { schornColors } from "../../constants/schornColors";
+import { useGameStore } from "../../store/useGameStore";
 
 const SPEED = 1;
 
@@ -16,11 +17,14 @@ const SPACESHIP_WIDTH = 5;
 
 export function Laser({ id, position }: LaserProps) {
   const ref = useRef<Group>(null);
+  const setStoreLasersRef = useGameStore((state) => state.setLasersRef);
 
   useEffect(() => {
     if (ref.current) {
       ref.current.position.copy(position);
     }
+
+    setStoreLasersRef(ref);
   }, [position]);
 
   useFrame(() => {

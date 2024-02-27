@@ -3,46 +3,68 @@ import "./globals.css";
 import { OrbitControls, Text } from "@react-three/drei";
 import { Spaceship } from "./components/3DModels/Spaceship";
 import { Floor } from "./components/Floor";
-import { Asteroid } from "./components/3DModels/Asteroid";
-import { toPosition } from "./utils/toPosition";
 import { useGameStore } from "./store/useGameStore";
 import { memo, useEffect, useRef, useState } from "react";
 import { fontSize } from "./utils/fontSizes";
+import { schornColors } from "./constants/schornColors";
 
 const FloorMemoized = memo(Floor);
 
 function App() {
-  const checkCollisionLaserWithAsteroid = useGameStore(
-    (state) => state.checkCollisionLaserWithAsteroid
+  const isShipHitByAsteroid = useGameStore(
+    (state) => state.isShipHitByAsteroid
   );
-  const [isCollided, setIsCollided] = useState(false);
+  const isAsteroidHitByLaser = useGameStore(
+    (state) => state.isAsteroidHitByLaser
+  );
+  const cleanUpOldLasers = useGameStore((state) => state.cleanUpLasersRef);
+
+  const [shipHit, setShipHit] = useState(false);
+  const [asteroidHit, setAsteroidHit] = useState(false);
 
   useEffect(() => {
     setInterval(() => {
-      const { isCollision } = checkCollisionLaserWithAsteroid();
+      const { isHit: isShipHit } = isShipHitByAsteroid();
+      const { isHit: isAsteroidHit } = isAsteroidHitByLaser();
 
-      if (isCollision) {
-        setIsCollided(true);
+      // if (isShipHit) {
+      //   setShipHit(true);
+
+      //   setTimeout(() => {
+      //     setShipHit(false);
+      //   }, 300);
+      // }
+
+      if (isAsteroidHit) {
+        setAsteroidHit(true);
 
         setTimeout(() => {
-          setIsCollided(false);
-        }, 200);
+          setAsteroidHit(false);
+        }, 300);
       }
-    }, 1000);
-  }, [checkCollisionLaserWithAsteroid]);
 
-  // console.log("isCollided", isCollided);
+      cleanUpOldLasers();
+    }, 400);
+  }, [isShipHitByAsteroid]);
 
   return (
     <Canvas>
-      {isCollided && <Text fontSize={fontSize.lg}>collision</Text>}
+      {/* {shipHit && (
+        <Text fontSize={fontSize.lg} color={schornColors.purpleMagenta}>
+          spaceship collided with asteroid
+        </Text>
+      )} */}
+
+      {asteroidHit && (
+        <Text fontSize={fontSize.lg} color={schornColors.purpleMagenta}>
+          asteroid hit by laser
+        </Text>
+      )}
       <ambientLight intensity={9} />
 
       <OrbitControls />
 
       <Spaceship />
-      {/* <Asteroid /> */}
-      {/* <Floor /> */}
       <FloorMemoized />
     </Canvas>
   );
