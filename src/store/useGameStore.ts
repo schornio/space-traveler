@@ -1,5 +1,5 @@
 import { RefObject } from "react";
-import { Box3, Group, Mesh } from "three";
+import { Group, Mesh } from "three";
 import { create } from "zustand";
 import { createAsteroids } from "../utils/createAsteroids";
 import { Position } from "../utils/toPosition";

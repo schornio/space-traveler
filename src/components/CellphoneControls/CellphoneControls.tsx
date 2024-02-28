@@ -1,62 +1,72 @@
-import { TouchEvent, useCallback } from "react";
-import { ActionKey, useControls } from "../../hooks/useControls";
+import { useCallback } from "react";
+import useControlsStore, { ActionControls } from "../../store/useControlsStore";
 
 export function CellphoneControls() {
-  const { updateControls } = useControls();
+  const setControls = useControlsStore((state) => state.setCellphoneControls);
 
-  const onTouchStart = useCallback((e: any, action: ActionKey) => {
-    e.preventDefault();
-    //   console.log("e", e);
-    // console.log("on touch started called");
-
-    updateControls(action, true);
-  }, []);
-
-  function handleTouchEnd(action: ActionKey) {
-    // console.log("handleEnd: action", action);
-    updateControls(action, false);
-  }
+  const onCellphoneInteraction = useCallback(
+    (action: keyof ActionControls, value: boolean) => {
+      setControls(action, value);
+    },
+    []
+  );
 
   return (
     <div className="">
       <button
-        onMouseDown={(e) => {
-          console.log("onMouseDown");
-
-          onTouchStart(e, "up");
+        onTouchStart={() => {
+          onCellphoneInteraction("up", true);
         }}
-        onMouseUp={() => {
-          console.log("onMouseUp");
-
-          handleTouchEnd("up");
+        onTouchEnd={() => {
+          onCellphoneInteraction("up", false);
         }}
-        onTouchStart={(e) => onTouchStart(e, "up")}
-        onTouchEnd={() => handleTouchEnd("up")}
       >
         👆
       </button>
 
       <button
-        onMouseDown={(e) => onTouchStart(e, "up")}
-        onMouseUp={() => handleTouchEnd("up")}
-        onTouchStart={(e) => onTouchStart(e, "up")}
-        onTouchEnd={() => handleTouchEnd("down")}
+        onTouchStart={() => {
+          onCellphoneInteraction("left", true);
+        }}
+        onTouchEnd={() => {
+          onCellphoneInteraction("left", false);
+        }}
       >
         👈
       </button>
+
       <button
-        onTouchStart={(e) => onTouchStart(e, "up")}
-        onTouchEnd={() => handleTouchEnd("down")}
-      >
-        👇
-      </button>
-      <button
-        onTouchStart={(e) => onTouchStart(e, "up")}
-        onTouchEnd={() => handleTouchEnd("right")}
+        onTouchStart={() => {
+          onCellphoneInteraction("right", true);
+        }}
+        onTouchEnd={() => {
+          onCellphoneInteraction("right", false);
+        }}
       >
         👉
       </button>
-      <button onTouchStart={(e) => onTouchStart(e, "shoot")}>Shoot</button>
+
+      <button
+        onTouchStart={() => {
+          onCellphoneInteraction("down", true);
+        }}
+        onTouchEnd={() => {
+          onCellphoneInteraction("down", false);
+        }}
+      >
+        👇
+      </button>
+
+      <button
+        onTouchStart={() => {
+          onCellphoneInteraction("shoot", true);
+        }}
+        onTouchEnd={() => {
+          onCellphoneInteraction("shoot", false);
+        }}
+      >
+        🔫
+      </button>
     </div>
   );
 }

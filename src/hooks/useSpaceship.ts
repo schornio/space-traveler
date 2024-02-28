@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { LaserProps } from "../components/3DModels/Laser";
 import { fromPixelsToMeters } from "../utils/fromPixelsToMeters";
 import { useGameStore } from "../store/useGameStore";
-import { useControls } from "./useControls";
+import useControlsStore from "../store/useControlsStore";
 
 const POSSIBLE_LASER_HIT_TIME = 3000;
 const LASER_CHECK_HIT_ITERATION = 100;
@@ -17,12 +17,9 @@ export function useSpaceship() {
   }));
   const speed = 1;
   const [lasers, setLasers] = useState<LaserProps[]>([]);
-  const {
-    controls: { up, down, left, right, shoot },
-  } = useControls(); //using controls directly
-
-  // console.log("useSpaceship: controls", controls); //returns true just with the 'w'
-  console.log(up, down, left, right, shoot);
+  const { up, down, left, right, shoot } = useControlsStore(
+    (state) => state.controls
+  );
 
   useFrame(() => {
     if (spaceshipRef.current) {

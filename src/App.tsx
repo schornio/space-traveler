@@ -1,6 +1,5 @@
 import { CoreGame } from "./CoreGame";
 import { CellphoneControls } from "./components/CellphoneControls";
-import { WebControls } from "./components/WebControls";
 import "./globals.css";
 
 import { isMobileDevice } from "./utils/isMobileDevice";
