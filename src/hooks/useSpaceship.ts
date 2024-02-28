@@ -3,9 +3,12 @@ import { useEffect, useState } from "react";
 import { LaserProps } from "../components/3DModels/Laser";
 import { fromPixelsToMeters } from "../utils/fromPixelsToMeters";
 import { useGameStore } from "../store/useGameStore";
+import useControlsStore from "../store/useControlsStore";
 
 const POSSIBLE_LASER_HIT_TIME = 3000;
 const LASER_CHECK_HIT_ITERATION = 100;
+const WINDOW_HALF_X = fromPixelsToMeters(window.innerWidth / 2);
+const WINDOW_HALF_Y = fromPixelsToMeters(window.innerHeight / 2);
 
 export function useSpaceship() {
   const { spaceshipRef, isAsteroidHitByLaser } = useGameStore((state) => ({
@@ -13,57 +16,10 @@ export function useSpaceship() {
     isAsteroidHitByLaser: state.isAsteroidHitByLaser,
   }));
   const speed = 1;
-  const [movement, setMovement] = useState({
-    up: false,
-    down: false,
-    left: false,
-    right: false,
-  });
   const [lasers, setLasers] = useState<LaserProps[]>([]);
-
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      switch (e.key) {
-        case "w":
-          setMovement((m) => ({ ...m, up: true }));
-          break;
-        case "s":
-          setMovement((m) => ({ ...m, down: true }));
-          break;
-        case "a":
-          setMovement((m) => ({ ...m, left: true }));
-          break;
-        case "d":
-          setMovement((m) => ({ ...m, right: true }));
-          break;
-      }
-    };
-
-    const handleKeyUp = (e: KeyboardEvent) => {
-      switch (e.key) {
-        case "w":
-          setMovement((m) => ({ ...m, up: false }));
-          break;
-        case "s":
-          setMovement((m) => ({ ...m, down: false }));
-          break;
-        case "a":
-          setMovement((m) => ({ ...m, left: false }));
-          break;
-        case "d":
-          setMovement((m) => ({ ...m, right: false }));
-          break;
-      }
-    };
-
-    window.addEventListener("keydown", handleKeyDown);
-    window.addEventListener("keyup", handleKeyUp);
-
-    return () => {
-      window.removeEventListener("keydown", handleKeyDown);
-      window.removeEventListener("keyup", handleKeyUp);
-    };
-  }, [spaceshipRef]);
+  const { up, down, left, right, shoot } = useControlsStore(
+    (state) => state.controls
+  );
 
   useFrame(() => {
     if (spaceshipRef.current) {
@@ -71,29 +27,26 @@ export function useSpaceship() {
       let newPositionY = spaceshipRef.current.position.y;
       let newPositionX = spaceshipRef.current.position.x;
 
-      if (movement.up) {
+      if (up) {
         newPositionY += delta;
       }
-      if (movement.down) {
+      if (down) {
         newPositionY -= delta;
       }
-      if (movement.left) {
+      if (left) {
         newPositionX -= delta;
       }
-      if (movement.right) {
+      if (right) {
         newPositionX += delta;
       }
 
-      const windowHalfX = fromPixelsToMeters(window.innerWidth / 2);
-      const windowHalfY = fromPixelsToMeters(window.innerHeight / 2);
-
       newPositionX = Math.max(
-        -windowHalfX,
-        Math.min(windowHalfX, newPositionX)
+        -WINDOW_HALF_X,
+        Math.min(WINDOW_HALF_X, newPositionX)
       );
       newPositionY = Math.max(
-        -windowHalfY,
-        Math.min(windowHalfY, newPositionY)
+        -WINDOW_HALF_Y,
+        Math.min(WINDOW_HALF_Y, newPositionY)
       );
 
       spaceshipRef.current.position.y = newPositionY;
@@ -102,8 +55,8 @@ export function useSpaceship() {
   });
 
   useEffect(() => {
-    const fireLaser = (e: KeyboardEvent) => {
-      if (e.code === "Space" && spaceshipRef.current) {
+    const fireLaser = () => {
+      if (shoot && spaceshipRef.current) {
         const currentPosition = spaceshipRef.current.position;
         spaceshipRef.current.getWorldPosition(currentPosition);
 
@@ -126,9 +79,10 @@ export function useSpaceship() {
     };
 
     window.addEventListener("keydown", fireLaser);
+    fireLaser();
 
     return () => window.removeEventListener("keydown", fireLaser);
-  }, []);
+  }, [shoot]);
 
   return lasers;
 }

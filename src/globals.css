@@ -3,14 +3,24 @@
   padding: 0;
   box-sizing: border-box;
   overflow: hidden;
-  height: 100vh; /* Set height to 100% of the viewport height */
-  background-color: #111;
+  /* height: 100vh; */
 }
 
-.container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  /* width: 100vw; Set width to 100% of the viewport width */
-  background-color: red;
+.canvas-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  z-index: -1;
+  background-color: #333;
+}
+
+.cellphone-container {
+  position: absolute;
+  top: 10%;
+  width: 100%;
+  height: 100vh;
+  z-index: 1;
 }

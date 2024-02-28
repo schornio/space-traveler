@@ -1,0 +1,83 @@
+import "./styles.css";
+import { Canvas, useFrame } from "@react-three/fiber";
+import { OrbitControls } from "@react-three/drei";
+import { useEffect, useRef, useState } from "react";
+
+export default function App() {
+  return (
+    <>
+      <div>
+        <Web />
+      </div>
+      <div
+        style={{
+          background: "black",
+          height: "100vh",
+        }}
+      >
+        <CanvasAR />
+      </div>
+    </>
+  );
+}
+
+export function Web() {
+  return <h2>Web</h2>;
+}
+
+export function CanvasAR() {
+  const [movement, setMovement] = useState({
+    up: false,
+    down: false,
+    left: false,
+    right: false,
+  });
+
+  const handleMove = (direction) => {
+    setMovement({ ...movement, [direction]: true });
+    setTimeout(() => setMovement({ ...movement, [direction]: false }), 300);
+  };
+
+  return (
+    <div>
+      <Canvas>
+        <ambientLight intensity={2} />
+
+        <Box movement={movement} />
+        {/* <OrbitControls /> */}
+      </Canvas>
+
+      <div>
+        <button onClick={() => handleMove("up")}>Up</button>
+        <button onClick={() => handleMove("down")}>Down</button>
+        <button onClick={() => handleMove("left")}>Left</button>
+        <button onClick={() => handleMove("right")}>Right</button>
+      </div>
+    </div>
+  );
+}
+
+function Box({ movement }) {
+  const ref = useRef();
+
+  const speed = 1;
+
+  useFrame(() => {
+    if (ref.current) {
+      const delta = speed / 10;
+      const { up, down, left, right } = movement;
+
+      if (up) ref.current.position.y += delta;
+      if (down) ref.current.position.y -= delta;
+      if (left) ref.current.position.x -= delta;
+      if (right) ref.current.position.x += delta;
+    }
+  });
+
+  return (
+    <mesh ref={ref}>
+      <boxGeometry args={[1, 1, 1]} />
+      <meshStandardMaterial color="red" />
+    </mesh>
+  );
+}

@@ -1,13 +1,9 @@
-import { RefObject, createRef, useEffect, useRef, useState } from "react";
+import { useRef } from "react";
 import { toPosition } from "../../utils/toPosition";
 import { toRotation } from "../../utils/toRotation";
-import { Group, Mesh, Object3D } from "three";
+import { Group } from "three";
 import { useFrame } from "@react-three/fiber";
 import { schornColors } from "../../constants/schornColors";
-import { useGameStore } from "../../store/useGameStore";
-import { useGLTF } from "@react-three/drei";
-import { PATH_3D_MODELS } from "../3DModels/path";
-import { GLTF } from "three-stdlib";
 import { Asteroids } from "../3DModels/Asteroids";
 
 export const FLOOR_RADIUS = 100;
