@@ -17,6 +17,7 @@ import { PATH_3D_MODELS } from "./path";
 import { Laser } from "./Laser";
 import { useSpaceship } from "../../hooks/useSpaceship";
 import { useGameStore } from "../../store/useGameStore";
+import { useCurrentDevice } from "../../store/useCurrentDevice";
 
 type GLTFResult = GLTF & {
   nodes: {
@@ -39,13 +40,14 @@ export function Spaceship() {
   ) as GLTFResult;
   const spaceshipRef = useGameStore((state) => state.spaceship.ref);
   const lasers = useSpaceship();
+  const currentDevice = useCurrentDevice();
 
   return (
     <group>
       <group
         ref={spaceshipRef}
         dispose={null}
-        scale={0.4}
+        scale={currentDevice === "vr" ? 0.25 : 0.4}
         position={toPosition({
           positionBottom: 3,
           positionIn: 6,

@@ -1,14 +1,11 @@
-import {
-  ImmersiveSessionOrigin,
-  useEnterXR,
-} from "@coconut-xr/natuerlich/react";
+import { useEnterXR } from "@coconut-xr/natuerlich/react";
 import { CoreGame } from "./CoreGame";
 import { CellphoneControls } from "./components/CellphoneControls";
 import "./globals.css";
 import { useCurrentDevice } from "./store/useCurrentDevice";
-import { Controllers, Hands, XRCanvas } from "@coconut-xr/natuerlich/defaults";
 import { Canvas } from "@react-three/fiber";
 import { useGameStore } from "./store/useGameStore";
+import { VRScene } from "./VRScene";
 
 const sessionOptions: XRSessionInit = {
   requiredFeatures: ["local-floor", "hand-tracking"],
@@ -68,21 +65,13 @@ function App() {
       </div>
 
       {currentDevice === "vr" && (
-        <button onClick={enterVR} className="enter-vr-btn">
-          Enter VR
-        </button>
+        <div>
+          <button onClick={enterVR} className="enter-vr-btn">
+            Enter VR
+          </button>
+          <VRScene />
+        </div>
       )}
-
-      <div>
-        <XRCanvas>
-          <ImmersiveSessionOrigin>
-            <Hands type="grab" />
-            <Controllers type="pointer" />
-
-            <CoreGame />
-          </ImmersiveSessionOrigin>
-        </XRCanvas>
-      </div>
     </main>
   );
 }
