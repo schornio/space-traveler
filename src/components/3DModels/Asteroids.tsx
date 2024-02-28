@@ -8,29 +8,29 @@ Source: https://sketchfab.com/3d-models/asteroid-with-minerals-1cf93f26dbc34a08a
 Title: Asteroid with minerals
 */
 
-import * as THREE from "three";
+// import * as THREE from "three";
 import { useGLTF } from "@react-three/drei";
-import { GLTF } from "three-stdlib";
+// import { GLTF } from "three-stdlib";
 import { PATH_3D_MODELS } from "./path";
 import { useFrame } from "@react-three/fiber";
 import { useGameStore } from "../../store/useGameStore";
 import { toPosition } from "../../utils/toPosition";
 
-type GLTFResult = GLTF & {
-  nodes: {
-    Object_2: THREE.Mesh;
-  };
-  materials: {
-    ["defaultMat.003"]: THREE.MeshStandardMaterial;
-  };
-};
+// type GLTFResult = GLTF & {
+//   nodes: {
+//     Object_2: THREE.Mesh;
+//   };
+//   materials: {
+//     ["defaultMat.003"]: THREE.MeshStandardMaterial;
+//   };
+// };
 
 export function Asteroids() {
   const asteroids = useGameStore((state) => state.asteroids);
 
-  const { nodes, materials } = useGLTF(
-    `${PATH_3D_MODELS}/asteroidOptimized-transformed.glb`
-  ) as GLTFResult;
+  // const { nodes, materials } = useGLTF(
+  //   `${PATH_3D_MODELS}/asteroidOptimized-transformed.glb`
+  // ) as GLTFResult;
 
   useFrame(() => {
     asteroids.forEach(({ ref, rotationSpeed, speed }) => {
