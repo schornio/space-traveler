@@ -7,6 +7,8 @@ import { useControls } from "./useControls";
 
 const POSSIBLE_LASER_HIT_TIME = 3000;
 const LASER_CHECK_HIT_ITERATION = 100;
+const WINDOW_HALF_X = fromPixelsToMeters(window.innerWidth / 2);
+const WINDOW_HALF_Y = fromPixelsToMeters(window.innerHeight / 2);
 
 export function useSpaceship() {
   const { spaceshipRef, isAsteroidHitByLaser } = useGameStore((state) => ({
@@ -15,9 +17,12 @@ export function useSpaceship() {
   }));
   const speed = 1;
   const [lasers, setLasers] = useState<LaserProps[]>([]);
-  const { up, down, left, right, shoot } = useControls();
-  const windowHalfX = fromPixelsToMeters(window.innerWidth / 2);
-  const windowHalfY = fromPixelsToMeters(window.innerHeight / 2);
+  const {
+    controls: { up, down, left, right, shoot },
+  } = useControls(); //using controls directly
+
+  // console.log("useSpaceship: controls", controls); //returns true just with the 'w'
+  console.log(up, down, left, right, shoot);
 
   useFrame(() => {
     if (spaceshipRef.current) {
@@ -39,12 +44,12 @@ export function useSpaceship() {
       }
 
       newPositionX = Math.max(
-        -windowHalfX,
-        Math.min(windowHalfX, newPositionX)
+        -WINDOW_HALF_X,
+        Math.min(WINDOW_HALF_X, newPositionX)
       );
       newPositionY = Math.max(
-        -windowHalfY,
-        Math.min(windowHalfY, newPositionY)
+        -WINDOW_HALF_Y,
+        Math.min(WINDOW_HALF_Y, newPositionY)
       );
 
       spaceshipRef.current.position.y = newPositionY;

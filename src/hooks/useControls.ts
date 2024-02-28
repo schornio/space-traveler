@@ -8,7 +8,7 @@ const ACTIONS = {
   shoot: "shoot",
 } as const;
 
-type ActionKey = keyof typeof ACTIONS;
+export type ActionKey = keyof typeof ACTIONS;
 type ControlsState = Record<ActionKey, boolean>;
 
 export function useControls() {
@@ -20,11 +20,19 @@ export function useControls() {
     shoot: false,
   });
 
+  console.log("controls", controls); // up returns true when pressed
+
   const updateControls = (action: ActionKey, value: boolean) => {
+    // console.log("updateControls called");
+
     if (ACTIONS[action]) {
+      //   console.log("action", action); // when I press the button up it returns correctly
+
       setControls((controls) => ({ ...controls, [action]: value }));
     }
   };
+
+  //   console.log("controls", controls);
 
   const keyboardHandlers = (e: KeyboardEvent, type: "keyDown" | "keyUp") => {
     switch (e.key.toLowerCase()) {
@@ -58,5 +66,8 @@ export function useControls() {
     };
   }, []);
 
-  return controls;
+  //   console.log("useControls: up", controls.up); // returns true both with the button and with the w
+  //   console.log("useControls: controls", controls);
+
+  return { controls, updateControls };
 }
