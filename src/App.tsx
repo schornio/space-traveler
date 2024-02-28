@@ -6,6 +6,8 @@ import { useCurrentDevice } from "./store/useCurrentDevice";
 import { Canvas } from "@react-three/fiber";
 import { useGameStore } from "./store/useGameStore";
 import { VRScene } from "./VRScene";
+import useControlsStore from "./store/useControlsStore";
+import { useEffect } from "react";
 
 const sessionOptions: XRSessionInit = {
   requiredFeatures: ["local-floor", "hand-tracking"],
@@ -19,37 +21,37 @@ function App() {
     score: state.score,
   }));
 
+  const initializeKeyboard = useControlsStore(
+    (state) => state.initializeKeyboard
+  );
+
+  useEffect(() => {
+    if (currentDevice === "web") {
+      const cleanUp = initializeKeyboard();
+
+      return () => {
+        cleanUp();
+      };
+    }
+  }, [initializeKeyboard]);
+
   return (
     <main>
       <div
+        className="hud-container"
         style={{
-          position: "absolute",
-          top: "10%",
-          height: "10%",
-          width: "100%",
-          color: "white",
-          display: "flex",
-          justifyContent: "space-evenly",
-          alignItems: "center",
           fontSize: currentDevice === "cellphone" ? "1rem" : "2rem",
         }}
       >
         <p>{`Health: ${String(healthSpaceship).toUpperCase()}`}</p>
-        <p>{currentDevice.toUpperCase()}</p>
+        <p className="device">{currentDevice.toUpperCase()}</p>
         <p>{`Score: ${String(score).toUpperCase()}`}</p>
       </div>
 
       {currentDevice === "cellphone" && (
         <div
+          className="cellphone-controls-container"
           style={{
-            position: "absolute",
-            bottom: "10%",
-            height: "10%",
-            width: "100%",
-            color: "white",
-            display: "flex",
-            justifyContent: "space-evenly",
-            alignItems: "center",
             fontSize: currentDevice === "cellphone" ? "1rem" : "2rem",
           }}
         >
