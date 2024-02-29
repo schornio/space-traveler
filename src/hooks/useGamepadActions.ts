@@ -15,20 +15,20 @@ type ThumstickPosition = {
   y: number;
 };
 
-type ControllerActionsProps = {
+type GamepadActionsProps = {
   inputSource: XRInputSource;
   movementSpeed?: number;
 };
 
-type ControllerActionsReturn = {
+type GamepadActionsReturn = {
   buttonsState: ButtonsState;
   thumbstickPosition: ThumstickPosition;
 };
 
-export function useControllerActions({
+export function useGamepadActions({
   inputSource,
   movementSpeed = 2,
-}: ControllerActionsProps): ControllerActionsReturn {
+}: GamepadActionsProps): GamepadActionsReturn {
   const reader = useXRGamepadReader(inputSource);
   const [thumbstickPosition, setThumstickPosition] =
     useState<ThumstickPosition>({ x: 0, y: 0 });

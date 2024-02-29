@@ -1,23 +1,17 @@
-import { useCallback } from "react";
-import { toPosition } from "../../utils/toPosition";
 import { ActionControls } from "../../store/useControlsStore";
+import { toPosition } from "../../utils/toPosition";
 import { toRotation } from "../../utils/toRotation";
 import Button from "../Button";
 
-type HandVRControlsProps = {
-  setControls: (action: keyof ActionControls, value: boolean) => void;
-};
-
 const amIsitting = false;
 
-export function HandVRControls({ setControls }: HandVRControlsProps) {
-  const onVRHandInteraction = useCallback(
-    (action: keyof ActionControls, value: boolean) => {
-      setControls(action, value);
-    },
-    []
-  );
+type SpaceshipHandControlProps = {
+  onInteraction: (action: keyof ActionControls, value: boolean) => void;
+};
 
+export function SpaceshipHandControl({
+  onInteraction,
+}: SpaceshipHandControlProps) {
   return (
     <group
       position={toPosition({
@@ -33,10 +27,10 @@ export function HandVRControls({ setControls }: HandVRControlsProps) {
       <Button
         positionTop={1}
         onPressStart={() => {
-          onVRHandInteraction("up", true);
+          onInteraction("up", true);
         }}
         onPressEnd={() => {
-          onVRHandInteraction("up", false);
+          onInteraction("up", false);
         }}
       >
         👆
@@ -45,10 +39,10 @@ export function HandVRControls({ setControls }: HandVRControlsProps) {
       <Button
         positionTop={0.6}
         onPressStart={() => {
-          onVRHandInteraction("down", true);
+          onInteraction("down", true);
         }}
         onPressEnd={() => {
-          onVRHandInteraction("down", false);
+          onInteraction("down", false);
         }}
       >
         👇
@@ -58,10 +52,10 @@ export function HandVRControls({ setControls }: HandVRControlsProps) {
         positionTop={0.8}
         positionLeft={0.25}
         onPressStart={() => {
-          onVRHandInteraction("left", true);
+          onInteraction("left", true);
         }}
         onPressEnd={() => {
-          onVRHandInteraction("left", false);
+          onInteraction("left", false);
         }}
       >
         👈
@@ -71,10 +65,10 @@ export function HandVRControls({ setControls }: HandVRControlsProps) {
         positionTop={0.8}
         positionRight={0.25}
         onPressStart={() => {
-          onVRHandInteraction("right", true);
+          onInteraction("right", true);
         }}
         onPressEnd={() => {
-          onVRHandInteraction("right", false);
+          onInteraction("right", false);
         }}
       >
         👉
@@ -84,10 +78,10 @@ export function HandVRControls({ setControls }: HandVRControlsProps) {
         positionTop={0.8}
         positionRight={1}
         onPressStart={() => {
-          onVRHandInteraction("shoot", true);
+          onInteraction("shoot", true);
         }}
         onPressEnd={() => {
-          onVRHandInteraction("shoot", false);
+          onInteraction("shoot", false);
         }}
       >
         🔫

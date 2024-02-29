@@ -2,32 +2,28 @@ import { Controllers, Hands, XRCanvas } from "@coconut-xr/natuerlich/defaults";
 import {
   ImmersiveSessionOrigin,
   useInputSources,
-  useXRGamepadReader,
 } from "@coconut-xr/natuerlich/react";
 import { Environment, Text } from "@react-three/drei";
 import { CoreGame } from "./CoreGame";
-import useControlsStore from "./store/useControlsStore";
 import { SphereBackground } from "./components/SphereBackground";
-import { HandVRControls } from "./components/HandVRControls/HandVRControls";
+import { SpaceshipVRControl } from "./components/SpaceshipVRControl/SpaceshipVRControl";
 import { toPosition } from "./utils/toPosition";
 import { fontSize } from "./utils/fontSizes";
-import { useControllerActions } from "./hooks/useControllerActions";
+import { useGamepadActions } from "./hooks/useGamepadActions";
 
 export function VRScene() {
-  const setControls = useControlsStore((state) => state.setCellphoneControls);
-
   return (
     <XRCanvas>
       <ImmersiveSessionOrigin>
         <CoreGame />
-        <HandVRControls setControls={setControls} />
+        <SpaceshipVRControl />
 
         <Environment preset="city" background />
         <SphereBackground />
         <Hands type="touch" />
         <Controllers type="pointer" />
 
-        <Gamepad />
+        {/* <Gamepad /> */}
       </ImmersiveSessionOrigin>
     </XRCanvas>
   );
@@ -59,7 +55,7 @@ function InputSource({ inputSource }: { inputSource: XRInputSource }) {
 }
 
 function Ball({ inputSource }: { inputSource: XRInputSource }) {
-  const { thumbstickPosition, buttonsState } = useControllerActions({
+  const { thumbstickPosition, buttonsState } = useGamepadActions({
     inputSource,
   });
 
