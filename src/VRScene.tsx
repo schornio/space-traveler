@@ -4,16 +4,18 @@ import {
   useInputSources,
   useXRGamepadReader,
 } from "@coconut-xr/natuerlich/react";
-import { Environment } from "@react-three/drei";
+import { Environment, Text } from "@react-three/drei";
 import { CoreGame } from "./CoreGame";
 import useControlsStore from "./store/useControlsStore";
 import { SphereBackground } from "./components/SphereBackground";
 import { HandVRControls } from "./components/HandVRControls/HandVRControls";
 import { Vector2 } from "three";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useFrame } from "@react-three/fiber";
 import { toPosition } from "./utils/toPosition";
 import { useControllerJoystick } from "./hooks/useControllerJoystick";
+import { fontSize } from "./utils/fontSizes";
+import { useControllerButtons } from "./hooks/useControllerButtons";
 
 export function VRScene() {
   const setControls = useControlsStore((state) => state.setCellphoneControls);
@@ -65,6 +67,42 @@ function InputSource({ inputSource }: { inputSource: XRInputSource }) {
   return (
     <group>
       <Axes inputSource={inputSource} />
+
+      {axes.map((button) => (
+        <Axis key={button} inputSource={inputSource} button={button} />
+      ))}
+    </group>
+  );
+}
+
+function Axis({ inputSource, button }) {
+  const buttonsState = useControllerButtons(inputSource);
+
+  console.log("buttonsState", buttonsState);
+
+  return (
+    <group
+      position={toPosition({
+        positionIn: 2,
+        positionTop: 2,
+      })}
+    >
+      {/* <Text
+        fontSize={fontSize.lg}
+        position={toPosition({
+          positionLeft: 0.5,
+        })}
+      >
+        {button}
+      </Text>
+      <Text
+        fontSize={fontSize.lg}
+        position={toPosition({
+          positionRight: 0.5,
+        })}
+      >
+        {state}
+      </Text> */}
     </group>
   );
 }
