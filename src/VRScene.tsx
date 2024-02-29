@@ -12,6 +12,7 @@ import { HandVRControls } from "./components/HandVRControls/HandVRControls";
 import { Vector2 } from "three";
 import { useState } from "react";
 import { useFrame } from "@react-three/fiber";
+import { toPosition } from "./utils/toPosition";
 
 export function VRScene() {
   const setControls = useControlsStore((state) => state.setCellphoneControls);
@@ -67,29 +68,40 @@ function InputSource({ inputSource }: { inputSource: XRInputSource }) {
   );
 }
 
-const SIZE = 100;
+// const SIZE = 100;
+// const MOVEMENT_SPEED = 0.1;
 
 function Axes({ inputSource }: { inputSource: XRInputSource }) {
   const reader = useXRGamepadReader(inputSource);
   const [vector] = useState(new Vector2());
-  const [x, setX] = useState(0);
-  const [y, setY] = useState(0);
+  const [position, setPosition] = useState({ x: 0, y: 0 });
   const [state, setState] = useState(null);
+  const movementSpeed = 2; // Adjust this value to change the speed of the movement
 
-  useFrame((state, delta) => {
+  useFrame((_, delta) => {
     if (reader) {
       reader.readAxes("xr-standard-thumbstick", vector);
-      // Invert the y-axis by multiplying by -1 and apply a smaller multiplier to slow down movement
-      setX(vector.x * SIZE * 0.1); // Multiply by 0.5 to slow down the movement
-      setY(vector.y * SIZE * -0.1); // Invert y-axis and slow down the movement
-      const s = reader.readButton("xr-standard-thumbstick");
-      setState(s);
+      const deltaX = vector.x * movementSpeed * delta;
+      const deltaY = vector.y * movementSpeed * delta * -1; // Invert y-axis
+
+      setPosition((prevPosition) => ({
+        x: prevPosition.x + deltaX,
+        y: prevPosition.y + deltaY,
+      }));
+
+      const buttonState = reader.readButton("xr-standard-thumbstick");
+      setState(buttonState?.pressed);
     }
   });
 
   return (
-    <group>
-      <mesh position={[x, y, 0]}>
+    <group
+      position={toPosition({
+        positionIn: 1,
+        positionTop: 1,
+      })}
+    >
+      <mesh position={[position.x, position.y, 0]}>
         <sphereGeometry args={[0.2, 32, 32]} />
         <meshStandardMaterial color={state ? "red" : "blue"} />
       </mesh>
