@@ -20,6 +20,24 @@
   src: local("Neo Cybern"), url("/neo_cybern.otf") format("truetype");
 }
 
+.rotate-device-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #111;
+  color: white;
+  font-size: 1em;
+  font-weight: 500;
+  z-index: 100;
+  padding: 20px;
+  text-align: center;
+}
+
 body {
   font-family: "Neo Cybern", sans-serif;
 }
@@ -51,22 +69,11 @@ button:focus-visible {
   position: absolute;
   top: 0;
   left: 0;
-  width: 100%;
+  width: 100vw;
   height: 100vh;
   overflow: hidden;
   z-index: -1;
   background-color: #333;
-}
-
-.hud-container {
-  /* position: absolute;
-  top: 10%;
-  height: 100vh;
-  width: 100%;
-  color: white;
-  display: flex;
-  justify-content: space-evenly;
-  align-items: center; */
 }
 
 .health-info {
@@ -114,8 +121,8 @@ button:focus-visible {
 
 .touch-device-directions {
   position: relative;
-  width: 240px; /* Use vh to keep the aspect ratio based on height of the viewport */
-  height: 240px; /* Equal width and height */
+  width: 200px; /* Use vh to keep the aspect ratio based on height of the viewport */
+  height: 200px; /* Equal width and height */
   color: white;
   display: flex;
   justify-content: space-evenly;

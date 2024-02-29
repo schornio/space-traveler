@@ -19,7 +19,7 @@ export function TouchDeviceControls() {
   );
 
   return (
-    <div className="touch-device-controls-container noselect">
+    <div className="touch-device-controls-container">
       <div className="touch-device-directions">
         <button
           className="touch-device-controls-btn up-btn "
