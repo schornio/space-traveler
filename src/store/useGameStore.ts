@@ -9,7 +9,7 @@ import { checkCollision } from "../utils/checkCollision";
 
 const LASER_CHECK_HIT_ITERATION = 100;
 const TIME_LASER_ACTIVE_IN_MS = 5000;
-const COOLDOWN_BETWEN_LASERS_FIRE = 300;
+const COOLDOWN_BETWEN_LASERS_FIRE = 500;
 
 type LasersState = {
   ref: RefObject<Group>;
@@ -102,9 +102,7 @@ export const useGameStore = create<GameStore>((set) => ({
         timeStamp: Date.now(),
       };
 
-      setTimeout(() => {
-        isAsteroidHitByLaser();
-      }, LASER_CHECK_HIT_ITERATION);
+      isAsteroidHitByLaser();
 
       if (state.lasers.length > 5) {
         cleanOldLasers();

@@ -36,20 +36,10 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
+/* Display */
 .hud-container {
   position: absolute;
   top: 10%;
-  height: fit-content;
-  width: 100%;
-  color: white;
-  display: flex;
-  justify-content: space-evenly;
-  align-items: center;
-}
-
-.cellphone-controls-container {
-  position: absolute;
-  bottom: 10%;
   height: fit-content;
   width: 100%;
   color: white;
@@ -63,6 +53,21 @@ button:focus-visible {
   text-decoration: underline;
 }
 
+/* Touch Devices Styles (Phone and Tablet) */
+.touch-device-controls-container {
+  position: absolute;
+  bottom: 2%;
+  left: 2%;
+  width: 30vh; /* Use vh to keep the aspect ratio based on height of the viewport */
+  height: 30vh; /* Equal width and height */
+  color: white;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  background-color: #1a1a1a;
+  border-radius: 50%;
+}
+
 .canvas-container {
   position: absolute;
   top: 0;
@@ -74,14 +79,7 @@ button:focus-visible {
   background-color: #333;
 }
 
-.cellphone-container {
-  position: absolute;
-  top: 10%;
-  width: 100%;
-  height: 100vh;
-  z-index: 1;
-}
-
+/* VR styles */
 .enter-vr-btn {
   background-color: #e6007e;
   position: absolute;
@@ -89,4 +87,19 @@ button:focus-visible {
   left: 50%;
   transform: translateX(-50%);
   z-index: 2;
+}
+
+.tablet-cellphone-btn {
+  border: 1px solid #e6007e;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.icon-btn {
+  color: red;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

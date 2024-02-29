@@ -1,8 +1,15 @@
 import { useCallback } from "react";
 import useControlsStore, { ActionControls } from "../../store/useControlsStore";
+import {
+  FaArrowCircleDown,
+  FaArrowCircleLeft,
+  FaArrowCircleRight,
+  FaArrowCircleUp,
+} from "react-icons/fa";
+import { GiLaserGun } from "react-icons/gi";
 
-export function CellphoneControls() {
-  const setControls = useControlsStore((state) => state.setCellphoneControls);
+export function TouchDeviceControls() {
+  const setControls = useControlsStore((state) => state.setControls);
 
   const onCellphoneInteraction = useCallback(
     (action: keyof ActionControls, value: boolean) => {
@@ -12,8 +19,9 @@ export function CellphoneControls() {
   );
 
   return (
-    <div className="">
+    <div className="container-btn">
       <button
+        className="tablet-cellphone-btn"
         onTouchStart={() => {
           onCellphoneInteraction("up", true);
         }}
@@ -21,10 +29,11 @@ export function CellphoneControls() {
           onCellphoneInteraction("up", false);
         }}
       >
-        👆
+        <FaArrowCircleUp />
       </button>
 
       <button
+        className="tablet-cellphone-btn"
         onTouchStart={() => {
           onCellphoneInteraction("left", true);
         }}
@@ -32,10 +41,11 @@ export function CellphoneControls() {
           onCellphoneInteraction("left", false);
         }}
       >
-        👈
+        <FaArrowCircleLeft className="icon-btn" />
       </button>
 
       <button
+        className="tablet-cellphone-btn"
         onTouchStart={() => {
           onCellphoneInteraction("right", true);
         }}
@@ -43,10 +53,11 @@ export function CellphoneControls() {
           onCellphoneInteraction("right", false);
         }}
       >
-        👉
+        <FaArrowCircleRight />
       </button>
 
       <button
+        className="tablet-cellphone-btn"
         onTouchStart={() => {
           onCellphoneInteraction("down", true);
         }}
@@ -54,7 +65,7 @@ export function CellphoneControls() {
           onCellphoneInteraction("down", false);
         }}
       >
-        👇
+        <FaArrowCircleDown />
       </button>
 
       <button
@@ -65,7 +76,7 @@ export function CellphoneControls() {
           onCellphoneInteraction("shoot", false);
         }}
       >
-        🔫
+        <GiLaserGun />
       </button>
     </div>
   );

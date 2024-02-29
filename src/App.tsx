@@ -1,6 +1,6 @@
 import { useEnterXR } from "@coconut-xr/natuerlich/react";
 import { CoreGame } from "./CoreGame";
-import { CellphoneControls } from "./components/CellphoneControls";
+import { TouchDeviceControls } from "./components/TouchDeviceControls";
 import "./globals.css";
 import { useCurrentDevice } from "./store/useCurrentDevice";
 import { Canvas } from "@react-three/fiber";
@@ -40,7 +40,7 @@ function App() {
       <div
         className="hud-container"
         style={{
-          fontSize: currentDevice === "cellphone" ? "1rem" : "2rem",
+          fontSize: currentDevice === "touchDevice" ? "1rem" : "2rem",
         }}
       >
         <p>{`Health: ${String(healthSpaceship).toUpperCase()}`}</p>
@@ -48,14 +48,14 @@ function App() {
         <p>{`Score: ${String(score).toUpperCase()}`}</p>
       </div>
 
-      {currentDevice === "cellphone" && (
+      {currentDevice === "touchDevice" && (
         <div
-          className="cellphone-controls-container"
+          className="touch-device-controls-container"
           style={{
-            fontSize: currentDevice === "cellphone" ? "1rem" : "2rem",
+            fontSize: currentDevice === "touchDevice" ? "1rem" : "2rem",
           }}
         >
-          <CellphoneControls />
+          <TouchDeviceControls />
         </div>
       )}
 
