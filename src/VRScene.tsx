@@ -13,6 +13,7 @@ import { Vector2 } from "three";
 import { useState } from "react";
 import { useFrame } from "@react-three/fiber";
 import { toPosition } from "./utils/toPosition";
+import { useControllerJoystick } from "./hooks/useControllerJoystick";
 
 export function VRScene() {
   const setControls = useControlsStore((state) => state.setCellphoneControls);
@@ -72,26 +73,8 @@ function InputSource({ inputSource }: { inputSource: XRInputSource }) {
 // const MOVEMENT_SPEED = 0.1;
 
 function Axes({ inputSource }: { inputSource: XRInputSource }) {
-  const reader = useXRGamepadReader(inputSource);
-  const [vector] = useState(new Vector2());
-  const [position, setPosition] = useState({ x: 0, y: 0 });
-  const [state, setState] = useState(null);
-  const movementSpeed = 2; // Adjust this value to change the speed of the movement
-
-  useFrame((_, delta) => {
-    if (reader) {
-      reader.readAxes("xr-standard-thumbstick", vector);
-      const deltaX = vector.x * movementSpeed * delta;
-      const deltaY = vector.y * movementSpeed * delta * -1; // Invert y-axis
-
-      setPosition((prevPosition) => ({
-        x: prevPosition.x + deltaX,
-        y: prevPosition.y + deltaY,
-      }));
-
-      const buttonState = reader.readButton("xr-standard-thumbstick");
-      setState(buttonState?.pressed);
-    }
+  const position = useControllerJoystick({
+    inputSource,
   });
 
   return (
@@ -103,7 +86,7 @@ function Axes({ inputSource }: { inputSource: XRInputSource }) {
     >
       <mesh position={[position.x, position.y, 0]}>
         <sphereGeometry args={[0.2, 32, 32]} />
-        <meshStandardMaterial color={state ? "red" : "blue"} />
+        <meshStandardMaterial color="purple" />
       </mesh>
     </group>
   );
