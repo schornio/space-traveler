@@ -68,25 +68,23 @@ export const useGameStore = create<GameStore>((set) => ({
     set({ asteroids: updatedAsteroids });
   },
 
+  // LASERS
   lasers: [],
-
-  setLasers: (newLaser) => {
-    set((state) => ({ lasers: [...state.lasers, newLaser] }));
-  },
-
   fireLaser: () =>
     set((state) => {
       const spaceshipRef = useGameStore.getState().spaceship.ref;
 
       if (spaceshipRef.current) {
         const currentPosition = spaceshipRef.current.position;
+        // console.log("currentPosition", currentPosition);
+
         const { isAsteroidHitByLaser, cleanOldLasers } =
           useGameStore.getState();
 
         const newLaser: LasersState = {
           ref: createRef(),
           id: `laser-${state.lasers.length}`,
-          position: currentPosition,
+          position: currentPosition.clone(),
           timeStamp: Date.now(),
         };
 

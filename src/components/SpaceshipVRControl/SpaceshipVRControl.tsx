@@ -21,12 +21,12 @@ export function SpaceshipVRControl() {
 
   return (
     <group>
-      {/* {!isHandUsed && leftInputSource && (
+      {!isHandUsed && leftInputSource && (
         <SpaceshipGamepadControl
           onInteraction={onInteraction}
           inputSource={leftInputSource}
         />
-      )} */}
+      )}
 
       {isHandUsed && <SpaceshipHandControl onInteraction={onInteraction} />}
     </group>

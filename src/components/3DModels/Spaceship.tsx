@@ -43,6 +43,7 @@ export function Spaceship() {
     lasers: state.lasers,
   }));
   const currentDevice = useCurrentDevice();
+  useSpaceship();
 
   return (
     <group>

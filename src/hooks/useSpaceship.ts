@@ -1,5 +1,4 @@
 import { useFrame } from "@react-three/fiber";
-import { useEffect } from "react";
 import { fromPixelsToMeters } from "../utils/fromPixelsToMeters";
 import { useGameStore } from "../store/useGameStore";
 import useControlsStore from "../store/useControlsStore";
@@ -35,6 +34,9 @@ export function useSpaceship() {
       if (right) {
         newPositionX += delta;
       }
+      if (shoot) {
+        fireLaser();
+      }
 
       newPositionX = Math.max(
         -WINDOW_HALF_X,
@@ -49,16 +51,4 @@ export function useSpaceship() {
       spaceshipRef.current.position.x = newPositionX;
     }
   });
-
-  useEffect(() => {
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === " ") {
-        fireLaser();
-      }
-    };
-
-    window.addEventListener("keydown", handleKeyDown);
-
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [shoot]);
 }

@@ -27,6 +27,11 @@ export function Laser({ id, position }: LaserProps) {
   return (
     <group
       ref={ref}
+      position={toPosition({
+        positionTop: position.y,
+        positionRight: position.x,
+        positionOut: position.z,
+      })}
       rotation={toRotation({
         rotationXInRad: Math.PI / 2,
       })}
