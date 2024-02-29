@@ -27,10 +27,10 @@ type GamepadActionsReturn = {
 
 export function useGamepadActions({
   inputSource,
-  movementSpeed = 2,
+  movementSpeed = 0.06,
 }: GamepadActionsProps): GamepadActionsReturn {
   const reader = useXRGamepadReader(inputSource);
-  const [thumbstickPosition, setThumstickPosition] =
+  const [thumbstickPosition, setThumbstickPosition] =
     useState<ThumstickPosition>({ x: 0, y: 0 });
   const vector = new Vector2();
   const [buttonsState, setButtonsState] = useState<ButtonsState>({});
@@ -43,16 +43,14 @@ export function useGamepadActions({
     "thumbrest",
   ];
 
-  useFrame((_, delta) => {
+  useFrame(() => {
     if (reader) {
       reader.readAxes("xr-standard-thumbstick", vector);
-      const deltaX = vector.x * movementSpeed * delta;
-      const deltaY = vector.y * movementSpeed * delta * -1; // Invert y-axis
 
-      setThumstickPosition((prevPosition) => ({
-        x: prevPosition.x + deltaX,
-        y: prevPosition.y + deltaY,
-      }));
+      setThumbstickPosition({
+        x: vector.x * movementSpeed,
+        y: vector.y * movementSpeed * -1, // Optionally invert y-axis here
+      });
 
       const newButtonState = tracked_buttons.reduce((acc, button) => {
         acc[button] = {
