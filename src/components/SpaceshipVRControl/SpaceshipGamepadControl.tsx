@@ -2,6 +2,8 @@ import { ActionControls } from "../../store/useControlsStore";
 import { useGamepadActions } from "../../hooks/useGamepadActions";
 import { useGameStore } from "../../store/useGameStore";
 import { useFrame } from "@react-three/fiber";
+import { Text } from "@react-three/drei";
+import { toPosition } from "../../utils/toPosition";
 
 type SpaceshipGamepadControlProps = {
   onInteraction: (action: keyof ActionControls, value: boolean) => void;
@@ -17,6 +19,8 @@ export function SpaceshipGamepadControl({
   });
 
   const spaceshipRef = useGameStore((state) => state.spaceship.ref);
+  const fireLaser =
+    buttonsState["xr-standard-trigger"]?.pressed === true || false;
 
   useFrame(() => {
     if (spaceshipRef.current) {
@@ -25,8 +29,16 @@ export function SpaceshipGamepadControl({
     }
   });
 
-  console.log("thumbstickPosition.x", thumbstickPosition.x);
-  //   console.log("thumbstickPosition.y", thumbstickPosition.y);
+  console.log("fireLaser", fireLaser);
 
-  return null;
+  return (
+    <Text
+      fontSize={0.1}
+      position={toPosition({
+        positionIn: 1,
+      })}
+    >
+      {fireLaser}
+    </Text>
+  );
 }

@@ -1,4 +1,4 @@
-import { Suspense, useCallback } from "react";
+import { useCallback } from "react";
 import useControlsStore, { ActionControls } from "../../store/useControlsStore";
 import { useInputSources } from "@coconut-xr/natuerlich/react";
 import { SpaceshipHandControl } from "./SpaceshipHandControl";
@@ -21,12 +21,12 @@ export function SpaceshipVRControl() {
 
   return (
     <group>
-      {!isHandUsed && leftInputSource && (
+      {/* {!isHandUsed && leftInputSource && (
         <SpaceshipGamepadControl
           onInteraction={onInteraction}
           inputSource={leftInputSource}
         />
-      )}
+      )} */}
 
       {isHandUsed && <SpaceshipHandControl onInteraction={onInteraction} />}
     </group>

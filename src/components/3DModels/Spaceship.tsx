@@ -38,8 +38,10 @@ export function Spaceship() {
   const { nodes, materials } = useGLTF(
     `${PATH_3D_MODELS}/spaceshipOptimized-transformed.glb`
   ) as GLTFResult;
-  const spaceshipRef = useGameStore((state) => state.spaceship.ref);
-  const lasers = useSpaceship();
+  const { spaceshipRef, lasers } = useGameStore((state) => ({
+    spaceshipRef: state.spaceship.ref,
+    lasers: state.lasers,
+  }));
   const currentDevice = useCurrentDevice();
 
   return (

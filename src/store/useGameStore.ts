@@ -1,5 +1,5 @@
-import { RefObject } from "react";
-import { Group, Mesh } from "three";
+import { RefObject, createRef } from "react";
+import { Group, Mesh, Object3D, Vector3 } from "three";
 import { create } from "zustand";
 import { createAsteroids } from "../utils/createAsteroids";
 import { Position } from "../utils/toPosition";
@@ -7,8 +7,14 @@ import { Rotation } from "../utils/toRotation";
 import { createSpaceship } from "../utils/createSpaceship";
 import { checkCollision } from "../utils/checkCollision";
 
-type LaserWithTimeStamp = {
+const POSSIBLE_LASER_HIT_TIME = 3000;
+const LASER_CHECK_HIT_ITERATION = 100;
+const TIME_LASER_ACTIVE_IN_MS = 5000;
+
+type LasersState = {
   ref: RefObject<Group>;
+  id: string;
+  position: Vector3;
   timeStamp: number;
 };
 
@@ -27,16 +33,14 @@ export type AsteroidState = {
   rotationSpeed: { x: number; y: number };
 };
 
-const TIME_LASER_ACTIVE_IN_MS = 5000;
-
 type GameStore = {
   spaceship: SpaceshipState;
   asteroids: AsteroidState[];
   destroyAsteroid: (id: string) => void;
 
-  lasersRef: LaserWithTimeStamp[];
-  setLasersRef: (newRef: RefObject<Group>) => void;
-  cleanUpLasersRef: () => void;
+  lasers: LasersState[];
+  fireLaser: () => void;
+  cleanOldLasers: () => void;
 
   healthSpaceship: number;
   setHealthSpaceship: (newHealth: number) => void;
@@ -64,22 +68,46 @@ export const useGameStore = create<GameStore>((set) => ({
     set({ asteroids: updatedAsteroids });
   },
 
-  lasersRef: [],
-  setLasersRef: (newRef) => {
-    set((state) => ({
-      lasersRef: [
-        ...state.lasersRef,
-        {
-          ref: newRef,
-          timeStamp: Date.now(),
-        },
-      ],
-    }));
+  lasers: [],
+
+  setLasers: (newLaser) => {
+    set((state) => ({ lasers: [...state.lasers, newLaser] }));
   },
-  cleanUpLasersRef() {
+
+  fireLaser: () =>
+    set((state) => {
+      const spaceshipRef = useGameStore.getState().spaceship.ref;
+
+      if (spaceshipRef.current) {
+        const currentPosition = spaceshipRef.current.position;
+        const { isAsteroidHitByLaser, cleanOldLasers } =
+          useGameStore.getState();
+
+        const newLaser: LasersState = {
+          ref: createRef(),
+          id: `laser-${state.lasers.length}`,
+          position: currentPosition,
+          timeStamp: Date.now(),
+        };
+
+        setTimeout(() => {
+          isAsteroidHitByLaser();
+        }, LASER_CHECK_HIT_ITERATION);
+
+        if (state.lasers.length > 5) {
+          cleanOldLasers();
+        }
+
+        return {
+          lasers: [...state.lasers, newLaser],
+        };
+      }
+    }),
+
+  cleanOldLasers: () => {
     set((state) => ({
-      lasersRef: state.lasersRef.filter(
-        ({ timeStamp }) => Date.now() - timeStamp < TIME_LASER_ACTIVE_IN_MS
+      lasers: state.lasers.filter(
+        (laser) => Date.now() - laser.timeStamp < TIME_LASER_ACTIVE_IN_MS
       ),
     }));
   },
@@ -116,15 +144,10 @@ export const useGameStore = create<GameStore>((set) => ({
   },
 
   isAsteroidHitByLaser: () => {
-    const {
-      lasersRef,
-      asteroids,
-      destroyAsteroid,
-      setScore,
-      cleanUpLasersRef,
-    } = useGameStore.getState();
+    const { lasers, asteroids, destroyAsteroid, setScore } =
+      useGameStore.getState();
 
-    for (let { ref: laserRef } of lasersRef) {
+    for (let { ref: laserRef } of lasers) {
       if (laserRef.current) {
         for (let { ref: asteroidRef, id: asteroidId } of asteroids) {
           if (
@@ -137,8 +160,6 @@ export const useGameStore = create<GameStore>((set) => ({
           }
         }
       }
-
-      cleanUpLasersRef();
     }
   },
 }));

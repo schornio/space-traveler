@@ -1,22 +1,18 @@
 import { useFrame } from "@react-three/fiber";
-import { useEffect, useState } from "react";
-import { LaserProps } from "../components/3DModels/Laser";
+import { useEffect } from "react";
 import { fromPixelsToMeters } from "../utils/fromPixelsToMeters";
 import { useGameStore } from "../store/useGameStore";
 import useControlsStore from "../store/useControlsStore";
 
-const POSSIBLE_LASER_HIT_TIME = 3000;
-const LASER_CHECK_HIT_ITERATION = 100;
 const WINDOW_HALF_X = fromPixelsToMeters(window.innerWidth / 2);
 const WINDOW_HALF_Y = fromPixelsToMeters(window.innerHeight / 2);
 
 export function useSpaceship() {
-  const { spaceshipRef, isAsteroidHitByLaser } = useGameStore((state) => ({
+  const { spaceshipRef, fireLaser } = useGameStore((state) => ({
     spaceshipRef: state.spaceship.ref,
-    isAsteroidHitByLaser: state.isAsteroidHitByLaser,
+    fireLaser: state.fireLaser,
   }));
   const speed = 1;
-  const [lasers, setLasers] = useState<LaserProps[]>([]);
   const { up, down, left, right, shoot } = useControlsStore(
     (state) => state.controls
   );
@@ -55,34 +51,14 @@ export function useSpaceship() {
   });
 
   useEffect(() => {
-    const fireLaser = () => {
-      if (shoot && spaceshipRef.current) {
-        const currentPosition = spaceshipRef.current.position;
-        spaceshipRef.current.getWorldPosition(currentPosition);
-
-        setLasers((lasers) => [
-          ...lasers,
-          {
-            id: `laser-${lasers.length}`,
-            position: currentPosition,
-          },
-        ]);
-
-        const intervalId = setInterval(() => {
-          isAsteroidHitByLaser();
-        }, LASER_CHECK_HIT_ITERATION);
-
-        setTimeout(() => {
-          clearInterval(intervalId);
-        }, POSSIBLE_LASER_HIT_TIME);
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === " ") {
+        fireLaser();
       }
     };
 
-    window.addEventListener("keydown", fireLaser);
-    fireLaser();
+    window.addEventListener("keydown", handleKeyDown);
 
-    return () => window.removeEventListener("keydown", fireLaser);
+    return () => window.removeEventListener("keydown", handleKeyDown);
   }, [shoot]);
-
-  return lasers;
 }
