@@ -1,24 +1,80 @@
+import { useEnterXR } from "@coconut-xr/natuerlich/react";
 import { CoreGame } from "./CoreGame";
 import { CellphoneControls } from "./components/CellphoneControls";
 import "./globals.css";
+import { useCurrentDevice } from "./store/useCurrentDevice";
+import { Canvas } from "@react-three/fiber";
+import { useGameStore } from "./store/useGameStore";
+import { VRScene } from "./VRScene";
+import useControlsStore from "./store/useControlsStore";
+import { useEffect } from "react";
 
-import { isMobileDevice } from "./utils/isMobileDevice";
+const sessionOptions: XRSessionInit = {
+  requiredFeatures: ["local-floor", "hand-tracking"],
+};
 
 function App() {
-  const isMobile = isMobileDevice();
+  const currentDevice = useCurrentDevice();
+  const enterVR = useEnterXR("immersive-ar", sessionOptions);
+  const { healthSpaceship, score } = useGameStore((state) => ({
+    healthSpaceship: state.healthSpaceship,
+    score: state.score,
+  }));
+
+  const initializeKeyboard = useControlsStore(
+    (state) => state.initializeKeyboard
+  );
+
+  useEffect(() => {
+    if (currentDevice === "web") {
+      const cleanUp = initializeKeyboard();
+
+      return () => {
+        cleanUp();
+      };
+    }
+  }, [initializeKeyboard]);
 
   return (
-    <>
-      <div className="cellphone-container">
-        <h1>{isMobile ? "phone" : "pc"}</h1>
-
-        <CellphoneControls />
+    <main>
+      <div
+        className="hud-container"
+        style={{
+          fontSize: currentDevice === "cellphone" ? "1rem" : "2rem",
+        }}
+      >
+        <p>{`Health: ${String(healthSpaceship).toUpperCase()}`}</p>
+        <p className="device">{currentDevice.toUpperCase()}</p>
+        <p>{`Score: ${String(score).toUpperCase()}`}</p>
       </div>
 
+      {currentDevice === "cellphone" && (
+        <div
+          className="cellphone-controls-container"
+          style={{
+            fontSize: currentDevice === "cellphone" ? "1rem" : "2rem",
+          }}
+        >
+          <CellphoneControls />
+        </div>
+      )}
+
+      {/* Web canvas */}
       <div className="canvas-container">
-        <CoreGame />
+        <Canvas>
+          <CoreGame />
+        </Canvas>
       </div>
-    </>
+
+      {currentDevice === "vr" && (
+        <div>
+          <button onClick={enterVR} className="enter-vr-btn">
+            Enter VR
+          </button>
+          <VRScene />
+        </div>
+      )}
+    </main>
   );
 }
 

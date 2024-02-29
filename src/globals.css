@@ -3,7 +3,64 @@
   padding: 0;
   box-sizing: border-box;
   overflow: hidden;
-  /* height: 100vh; */
+}
+
+@font-face {
+  font-family: "Neo Cybern";
+  src: local("Neo Cybern"), url("/neo_cybern.otf") format("truetype");
+}
+
+body {
+  font-family: "Neo Cybern", sans-serif;
+}
+
+button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #1a1a1a;
+  color: #fff;
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+
+button:hover {
+  border-color: #e6007e;
+}
+
+button:focus,
+button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}
+
+.hud-container {
+  position: absolute;
+  top: 10%;
+  height: fit-content;
+  width: 100%;
+  color: white;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.cellphone-controls-container {
+  position: absolute;
+  bottom: 10%;
+  height: fit-content;
+  width: 100%;
+  color: white;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.device {
+  color: #e6007e;
+  text-decoration: underline;
 }
 
 .canvas-container {
@@ -23,4 +80,13 @@
   width: 100%;
   height: 100vh;
   z-index: 1;
+}
+
+.enter-vr-btn {
+  background-color: #e6007e;
+  position: absolute;
+  bottom: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
 }
