@@ -8,6 +8,8 @@ type HandVRControlsProps = {
   setControls: (action: keyof ActionControls, value: boolean) => void;
 };
 
+const amIsitting = false;
+
 export function HandVRControls({ setControls }: HandVRControlsProps) {
   const onVRHandInteraction = useCallback(
     (action: keyof ActionControls, value: boolean) => {
@@ -20,7 +22,7 @@ export function HandVRControls({ setControls }: HandVRControlsProps) {
     <group
       position={toPosition({
         positionLeft: 0.3,
-        positionTop: 0.2,
+        positionTop: amIsitting ? 0.2 : 0.5,
         positionIn: 0.2,
       })}
       scale={0.8}
