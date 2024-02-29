@@ -38,14 +38,20 @@ function App() {
   return (
     <main>
       <div
-        className="hud-container"
         style={{
           fontSize: currentDevice === "touchDevice" ? "1rem" : "2rem",
         }}
       >
-        <p>{`Health: ${String(healthSpaceship).toUpperCase()}`}</p>
-        <p className="device">{currentDevice.toUpperCase()}</p>
-        <p>{`Score: ${String(score).toUpperCase()}`}</p>
+        <p className="health-info">
+          Health:{" "}
+          <span className="info-detail">
+            {String(healthSpaceship).toUpperCase()}
+          </span>
+        </p>
+        <p className="device-info">{currentDevice.toUpperCase()}</p>
+        <p className="score-info">
+          Score: <span className="info-detail">{score}</span>
+        </p>
       </div>
 
       {currentDevice === "touchDevice" && (

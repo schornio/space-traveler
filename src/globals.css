@@ -59,23 +59,48 @@ button:focus-visible {
 }
 
 .hud-container {
-  position: absolute;
+  /* position: absolute;
   top: 10%;
-  height: fit-content;
+  height: 100vh;
   width: 100%;
   color: white;
   display: flex;
   justify-content: space-evenly;
-  align-items: center;
+  align-items: center; */
 }
 
-.device {
+.health-info {
+  color: white;
+  position: absolute;
+  top: 10%;
+  right: 5%;
+  font-size: 2em;
+  font-weight: 500;
+}
+
+.score-info {
+  color: white;
+  position: absolute;
+  top: 20%;
+  right: 5%;
+  font-size: 2em;
+  font-weight: 500;
+}
+
+.info-detail {
   color: #e6007e;
-  text-decoration: underline;
+}
+
+.device-info {
+  position: absolute;
+  top: 30%;
+  right: 5%;
+  font-size: 1em;
+  font-weight: 500;
+  color: #e6007e;
 }
 
 /* TOUCH DEVICES (Phone and Tablet) */
-
 .touch-device-controls-container {
   position: fixed;
   left: 0;
@@ -89,8 +114,8 @@ button:focus-visible {
 
 .touch-device-directions {
   position: relative;
-  width: 30vh; /* Use vh to keep the aspect ratio based on height of the viewport */
-  height: 30vh; /* Equal width and height */
+  width: 240px; /* Use vh to keep the aspect ratio based on height of the viewport */
+  height: 240px; /* Equal width and height */
   color: white;
   display: flex;
   justify-content: space-evenly;
@@ -160,7 +185,6 @@ button:focus-visible {
   justify-content: center;
   align-items: center;
   box-shadow: 0 0 6px 0 rgba(26, 26, 26, 0.5);
-  border: 1px solid #cccccc;
   transition: border-color 0.2s ease-in-out;
 }
 
