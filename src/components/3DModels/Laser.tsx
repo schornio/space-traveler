@@ -17,6 +17,15 @@ const SPACESHIP_WIDTH = 5;
 
 export function Laser({ id, position }: LaserProps) {
   const ref = useRef<Group>(null);
+  const setStoreLasersRef = useGameStore((state) => state.setLasersRef);
+
+  useEffect(() => {
+    if (ref.current) {
+      ref.current.position.copy(position);
+    }
+
+    setStoreLasersRef(id, ref);
+  }, [position]);
 
   useFrame(() => {
     if (ref.current) {
