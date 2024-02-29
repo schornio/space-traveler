@@ -5,6 +5,16 @@
   overflow: hidden;
 }
 
+.noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Old versions of Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Edge, Opera and Firefox */
+}
+
 @font-face {
   font-family: "Neo Cybern";
   src: local("Neo Cybern"), url("/neo_cybern.otf") format("truetype");
@@ -36,7 +46,18 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
-/* Display */
+/* GENERAL */
+.canvas-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  z-index: -1;
+  background-color: #333;
+}
+
 .hud-container {
   position: absolute;
   top: 10%;
@@ -53,33 +74,101 @@ button:focus-visible {
   text-decoration: underline;
 }
 
-/* Touch Devices Styles (Phone and Tablet) */
+/* TOUCH DEVICES (Phone and Tablet) */
+
 .touch-device-controls-container {
-  position: absolute;
-  bottom: 2%;
-  left: 2%;
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 1%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+}
+
+.touch-device-directions {
+  position: relative;
   width: 30vh; /* Use vh to keep the aspect ratio based on height of the viewport */
   height: 30vh; /* Equal width and height */
   color: white;
   display: flex;
   justify-content: space-evenly;
   align-items: center;
-  background-color: #1a1a1a;
+  background-color: #111;
   border-radius: 50%;
+  box-shadow: 0 0 6px 0 rgba(26, 26, 26, 0.5);
 }
 
-.canvas-container {
+.touch-device-controls-btn {
+  position: relative;
+  height: 60px;
+  width: 60px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #cccccc;
+  transition: border-color 0.2s ease-in-out;
+  user-select: none; /* Prevent text selection */
+}
+
+.touch-device-controls-btn:active {
+  border-color: #e6007e;
+}
+
+.icon-btn {
+  color: white;
+  min-width: 30px; /* Example minimum size */
+  min-height: 30px;
+}
+
+.up-btn {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100vh;
-  overflow: hidden;
-  z-index: -1;
-  background-color: #333;
+  top: 10%;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
-/* VR styles */
+.down-btn {
+  position: absolute;
+  bottom: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.left-btn {
+  position: absolute;
+  top: 50%;
+  left: 10%;
+  transform: translateY(-50%);
+}
+
+.right-btn {
+  position: absolute;
+  top: 50%;
+  right: 10%;
+  transform: translateY(-50%);
+}
+
+.shoot-btn {
+  position: relative;
+  height: 90px;
+  width: 90px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 0 6px 0 rgba(26, 26, 26, 0.5);
+  border: 1px solid #cccccc;
+  transition: border-color 0.2s ease-in-out;
+}
+
+.shoot-btn:active {
+  border-color: #e6007e;
+}
+
+/* VR */
 .enter-vr-btn {
   background-color: #e6007e;
   position: absolute;
@@ -87,19 +176,4 @@ button:focus-visible {
   left: 50%;
   transform: translateX(-50%);
   z-index: 2;
-}
-
-.tablet-cellphone-btn {
-  border: 1px solid #e6007e;
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.icon-btn {
-  color: red;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }

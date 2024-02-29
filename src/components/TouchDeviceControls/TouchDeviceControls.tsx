@@ -1,17 +1,17 @@
 import { useCallback } from "react";
 import useControlsStore, { ActionControls } from "../../store/useControlsStore";
 import {
-  FaArrowCircleDown,
-  FaArrowCircleLeft,
-  FaArrowCircleRight,
-  FaArrowCircleUp,
+  FaArrowDown,
+  FaArrowLeft,
+  FaArrowRight,
+  FaArrowUp,
 } from "react-icons/fa";
 import { GiLaserGun } from "react-icons/gi";
 
 export function TouchDeviceControls() {
   const setControls = useControlsStore((state) => state.setControls);
 
-  const onCellphoneInteraction = useCallback(
+  const onTouchDeviceInteraction = useCallback(
     (action: keyof ActionControls, value: boolean) => {
       setControls(action, value);
     },
@@ -19,64 +19,68 @@ export function TouchDeviceControls() {
   );
 
   return (
-    <div className="container-btn">
-      <button
-        className="tablet-cellphone-btn"
-        onTouchStart={() => {
-          onCellphoneInteraction("up", true);
-        }}
-        onTouchEnd={() => {
-          onCellphoneInteraction("up", false);
-        }}
-      >
-        <FaArrowCircleUp />
-      </button>
+    <div className="touch-device-controls-container noselect">
+      <div className="touch-device-directions">
+        <button
+          className="touch-device-controls-btn up-btn "
+          onTouchStart={(e) => {
+            e.preventDefault();
+            onTouchDeviceInteraction("up", true);
+          }}
+          onTouchEnd={() => {
+            onTouchDeviceInteraction("up", false);
+          }}
+        >
+          <FaArrowUp className="icon-btn" />
+        </button>
+
+        <button
+          className="touch-device-controls-btn left-btn"
+          onTouchStart={() => {
+            onTouchDeviceInteraction("left", true);
+          }}
+          onTouchEnd={() => {
+            onTouchDeviceInteraction("left", false);
+          }}
+        >
+          <FaArrowLeft className="icon-btn" />
+        </button>
+
+        <button
+          className="touch-device-controls-btn right-btn"
+          onTouchStart={() => {
+            onTouchDeviceInteraction("right", true);
+          }}
+          onTouchEnd={() => {
+            onTouchDeviceInteraction("right", false);
+          }}
+        >
+          <FaArrowRight className="icon-btn" />
+        </button>
+
+        <button
+          className="touch-device-controls-btn down-btn"
+          onTouchStart={() => {
+            onTouchDeviceInteraction("down", true);
+          }}
+          onTouchEnd={() => {
+            onTouchDeviceInteraction("down", false);
+          }}
+        >
+          <FaArrowDown className="icon-btn" />
+        </button>
+      </div>
 
       <button
-        className="tablet-cellphone-btn"
+        className="shoot-btn"
         onTouchStart={() => {
-          onCellphoneInteraction("left", true);
+          onTouchDeviceInteraction("shoot", true);
         }}
         onTouchEnd={() => {
-          onCellphoneInteraction("left", false);
+          onTouchDeviceInteraction("shoot", false);
         }}
       >
-        <FaArrowCircleLeft className="icon-btn" />
-      </button>
-
-      <button
-        className="tablet-cellphone-btn"
-        onTouchStart={() => {
-          onCellphoneInteraction("right", true);
-        }}
-        onTouchEnd={() => {
-          onCellphoneInteraction("right", false);
-        }}
-      >
-        <FaArrowCircleRight />
-      </button>
-
-      <button
-        className="tablet-cellphone-btn"
-        onTouchStart={() => {
-          onCellphoneInteraction("down", true);
-        }}
-        onTouchEnd={() => {
-          onCellphoneInteraction("down", false);
-        }}
-      >
-        <FaArrowCircleDown />
-      </button>
-
-      <button
-        onTouchStart={() => {
-          onCellphoneInteraction("shoot", true);
-        }}
-        onTouchEnd={() => {
-          onCellphoneInteraction("shoot", false);
-        }}
-      >
-        <GiLaserGun />
+        <GiLaserGun className="icon-btn" />
       </button>
     </div>
   );
