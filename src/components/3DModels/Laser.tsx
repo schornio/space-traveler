@@ -47,19 +47,19 @@ export function Laser({ id, position }: LaserProps) {
       userData={{ id }}
     >
       {/* Left */}
-      <mesh
+      {/* <mesh
         position={toPosition({
           positionLeft: SPACESHIP_WIDTH / 2,
         })}
       >
         <cylinderGeometry args={[0.1, 0.1, 5, 32]} />
         <meshBasicMaterial color={schornColors.purpleMagenta} />
-      </mesh>
+      </mesh> */}
 
       {/* Right */}
       <mesh
         position={toPosition({
-          positionRight: SPACESHIP_WIDTH / 2,
+          // positionRight: SPACESHIP_WIDTH / 2,
         })}
       >
         <cylinderGeometry args={[0.1, 0.1, 5, 32]} />

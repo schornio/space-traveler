@@ -9,13 +9,14 @@ Title: Asteroid with minerals
 */
 
 // import * as THREE from "three";
-import { useGLTF } from "@react-three/drei";
+import { Text, useGLTF } from "@react-three/drei";
 // import { GLTF } from "three-stdlib";
 import { PATH_3D_MODELS } from "./path";
 import { useFrame } from "@react-three/fiber";
 import { useGameStore } from "../../store/useGameStore";
 import { toPosition } from "../../utils/toPosition";
 import { schornColors } from "../../constants/schornColors";
+import { fontSize } from "../../utils/fontSizes";
 
 // type GLTFResult = GLTF & {
 //   nodes: {
@@ -34,7 +35,7 @@ export function Asteroids() {
   // ) as GLTFResult;
 
   useFrame(() => {
-    asteroids.forEach(({ ref, rotationSpeed, speed, position }) => {
+    asteroids.forEach(({ ref, rotationSpeed, speed }) => {
       if (ref.current) {
         ref.current.rotation.z += speed;
         ref.current.rotation.x += rotationSpeed.x;
@@ -47,23 +48,24 @@ export function Asteroids() {
 
   return (
     <group>
-      {asteroids.map(({ position, size, ref }, index) => {
+      {asteroids.map(({ position, size, ref, id }, index) => {
         return (
-          <mesh
-            ref={ref}
-            key={index}
-            position={toPosition(position)}
-            scale={size}
-            // geometry={nodes.Object_2.geometry}
-            // material={materials["defaultMat.003"]}
-          >
-            <dodecahedronGeometry args={[1, 0]} />
-            <meshStandardMaterial
-              color={schornColors.magenta}
-              roughness={0.2}
-              metalness={0.8}
-            />
-          </mesh>
+          <group position={toPosition(position)}>
+            <mesh
+              ref={ref}
+              key={index}
+              scale={size}
+              // geometry={nodes.Object_2.geometry}
+              // material={materials["defaultMat.003"]}
+            >
+              <dodecahedronGeometry args={[0.4, 0]} />
+              <meshStandardMaterial
+                color={schornColors.purpleMagenta}
+                roughness={0.2}
+                metalness={0.8}
+              />
+            </mesh>
+          </group>
         );
       })}
     </group>

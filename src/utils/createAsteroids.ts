@@ -2,16 +2,19 @@ import { createRef } from "react";
 import { Mesh } from "three";
 import { AsteroidState } from "../store/useGameStore";
 
-export function createAsteroids(quantity: number): AsteroidState[] {
-  const initialZ = 20;
-  const spreadWidth = 15;
-  const depth = 100;
+const INITIAL_DISTANCE = 20;
+const SPREAD_WIDTH = 10;
+const DEPTH = 100;
+const HEIGHT_LIMIT = 6;
+const MIN_ASTEROID_SIZE = 0.5;
+const MAX_ASTEROID_SIZE = 2;
 
+export function createAsteroids(quantity: number): AsteroidState[] {
   return Array.from({ length: quantity }, () => {
-    const positionLeft = Math.random() * spreadWidth - spreadWidth / 2; // Spread width evenly across left and right
-    const positionIn = initialZ + Math.random() * depth;
-    const positionTop = (Math.random() * 10) / 2; // Spread height evenly across top and bottom
-    const scale = Math.random() * 1.5 + 0.5; // Ensure minimum size
+    const positionLeft = Math.random() * SPREAD_WIDTH - SPREAD_WIDTH / 2;
+    const positionIn = INITIAL_DISTANCE + Math.random() * DEPTH;
+    const positionTop = Math.random() * HEIGHT_LIMIT - HEIGHT_LIMIT / 2;
+    const scale = MIN_ASTEROID_SIZE + Math.random() * MAX_ASTEROID_SIZE; // Ensures a minimum size of 0.5 and up to 2
 
     return {
       ref: createRef<Mesh>(),
@@ -21,8 +24,10 @@ export function createAsteroids(quantity: number): AsteroidState[] {
       },
       position: { positionLeft, positionTop, positionIn },
       size: scale,
-      speed: Math.random() * 0.02 + 0.01, // Ensure a minimum speed
-      id: Math.random().toString(36).substring(7),
+      speed: Math.random() * 0.02 + 0.01,
+      id: `${Date.now().toString(36)}-${Math.random()
+        .toString(36)
+        .substring(2)}`,
     };
   });
 }

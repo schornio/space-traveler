@@ -7,7 +7,7 @@ import { OrbitControls } from "@react-three/drei";
 import { Asteroids } from "./components/3DModels/Asteroids";
 
 const COLLISION_TIME_INTERVAL = 1000;
-const CHECK_LASER_HIT_INTERVAL = 500;
+const CHECK_LASER_HIT_INTERVAL = 100;
 const TIME_TO_CREATE_ASTEROIDS = 10 * 1000;
 const AsteroidMemo = memo(Asteroids);
 
@@ -41,7 +41,7 @@ export function CoreGame() {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      createAsteroids(20);
+      createAsteroids(10);
     }, TIME_TO_CREATE_ASTEROIDS);
 
     return () => {

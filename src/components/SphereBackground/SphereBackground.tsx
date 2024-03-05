@@ -15,7 +15,7 @@ export function SphereBackground() {
         })}
       >
         {/* original radius 500 */}
-        <sphereGeometry args={[100, 120, 80]} />
+        <sphereGeometry args={[2000, 120, 80]} />
         <meshBasicMaterial side={BackSide} map={texture} />
       </mesh>
 

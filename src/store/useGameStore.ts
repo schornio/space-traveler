@@ -54,7 +54,7 @@ type GameStore = {
   isAsteroidHitByLaser: () => void;
 };
 
-const initialAsteroids = createAsteroids(20);
+const initialAsteroids = createAsteroids(10);
 const spaceship = createSpaceship();
 
 export const useGameStore = create<GameStore>((set) => ({

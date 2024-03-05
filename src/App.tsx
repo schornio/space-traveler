@@ -50,55 +50,55 @@ function App() {
 
   return (
     <main className="noselect">
-      {isLandscape ? (
-        <>
+      {/* {isLandscape ? ( */}
+      <>
+        <div
+          style={{
+            fontSize: currentDevice === "touchDevice" ? "1rem" : "2rem",
+          }}
+        >
+          <p className="health-info">
+            Health:{" "}
+            <span className="info-detail">
+              {String(healthSpaceship).toUpperCase()}
+            </span>
+          </p>
+          <p className="device-info">{currentDevice.toUpperCase()}</p>
+          <p className="score-info">
+            Score: <span className="info-detail">{score}</span>
+          </p>
+        </div>
+
+        {currentDevice === "touchDevice" && (
           <div
+            className="touch-device-controls-container"
             style={{
               fontSize: currentDevice === "touchDevice" ? "1rem" : "2rem",
             }}
           >
-            <p className="health-info">
-              Health:{" "}
-              <span className="info-detail">
-                {String(healthSpaceship).toUpperCase()}
-              </span>
-            </p>
-            <p className="device-info">{currentDevice.toUpperCase()}</p>
-            <p className="score-info">
-              Score: <span className="info-detail">{score}</span>
-            </p>
+            <TouchDeviceControls />
           </div>
+        )}
 
-          {currentDevice === "touchDevice" && (
-            <div
-              className="touch-device-controls-container"
-              style={{
-                fontSize: currentDevice === "touchDevice" ? "1rem" : "2rem",
-              }}
-            >
-              <TouchDeviceControls />
-            </div>
-          )}
+        {/* Web canvas */}
+        <div className="canvas-container">
+          <Canvas>
+            <CoreGame />
+          </Canvas>
+        </div>
 
-          {/* Web canvas */}
-          <div className="canvas-container">
-            <Canvas>
-              <CoreGame />
-            </Canvas>
+        {currentDevice === "vr" && (
+          <div>
+            <button onClick={enterVR} className="enter-vr-btn">
+              Enter VR
+            </button>
+            <VRScene />
           </div>
-
-          {currentDevice === "vr" && (
-            <div>
-              <button onClick={enterVR} className="enter-vr-btn">
-                Enter VR
-              </button>
-              <VRScene />
-            </div>
-          )}
-        </>
-      ) : (
+        )}
+      </>
+      {/* ) : (
         <RotateDevice />
-      )}
+      )} */}
     </main>
   );
 }
