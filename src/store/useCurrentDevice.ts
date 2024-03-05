@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 export type SupportedDevices = {
   web: "web";
-  cellphone: "cellphone";
+  touchDevice: "touchDevice"; // phones and tablets
   vr: "vr";
 };
 
@@ -15,15 +15,15 @@ function isVR() {
   return VRTerms.includes(true);
 }
 
-function isCellphone() {
+function isTouchDevice() {
   return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
     navigator.userAgent
   );
 }
 
 function checkCurrentDevice(): keyof SupportedDevices {
-  if (isCellphone()) {
-    return "cellphone";
+  if (isTouchDevice()) {
+    return "touchDevice";
   }
 
   if (isVR()) {

@@ -49,7 +49,7 @@ export function useGamepadActions({
 
       setThumbstickPosition({
         x: vector.x * movementSpeed,
-        y: vector.y * movementSpeed * -1, // Optionally invert y-axis here
+        y: vector.y * movementSpeed * -1,
       });
 
       const newButtonState = tracked_buttons.reduce((acc, button) => {

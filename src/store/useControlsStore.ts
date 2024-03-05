@@ -10,7 +10,7 @@ export type ActionControls = {
 
 type ControlsStore = {
   controls: ActionControls;
-  setCellphoneControls: (key: keyof ActionControls, value: boolean) => void;
+  setControls: (key: keyof ActionControls, value: boolean) => void;
   initializeKeyboard: () => () => void;
 };
 
@@ -23,7 +23,7 @@ const useControlsStore = create<ControlsStore>((set) => ({
     shoot: false,
   },
 
-  setCellphoneControls: (key, value) =>
+  setControls: (key, value) =>
     set((state) => ({
       controls: { ...state.controls, [key]: value },
     })),

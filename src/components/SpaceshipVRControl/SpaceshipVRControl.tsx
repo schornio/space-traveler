@@ -1,11 +1,11 @@
-import { Suspense, useCallback } from "react";
+import { useCallback } from "react";
 import useControlsStore, { ActionControls } from "../../store/useControlsStore";
 import { useInputSources } from "@coconut-xr/natuerlich/react";
 import { SpaceshipHandControl } from "./SpaceshipHandControl";
 import { SpaceshipGamepadControl } from "./SpaceshipGamepadControl";
 
 export function SpaceshipVRControl() {
-  const setControls = useControlsStore((state) => state.setCellphoneControls);
+  const setControls = useControlsStore((state) => state.setControls);
   const isHandUsed = useInputSources().some(
     (source) => source.hand instanceof XRHand
   );
@@ -22,10 +22,7 @@ export function SpaceshipVRControl() {
   return (
     <group>
       {!isHandUsed && leftInputSource && (
-        <SpaceshipGamepadControl
-          onInteraction={onInteraction}
-          inputSource={leftInputSource}
-        />
+        <SpaceshipGamepadControl inputSource={leftInputSource} />
       )}
 
       {isHandUsed && <SpaceshipHandControl onInteraction={onInteraction} />}
