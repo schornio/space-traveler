@@ -37,6 +37,7 @@ type GameStore = {
   spaceship: SpaceshipState;
   asteroids: AsteroidState[];
   destroyAsteroid: (id: string) => void;
+  createAsteroids: (quantity: number) => AsteroidState[];
 
   lasers: LasersState[];
   setLasersRef: (id: string, ref: RefObject<Group>) => void;
@@ -53,7 +54,7 @@ type GameStore = {
   isAsteroidHitByLaser: () => void;
 };
 
-const initialAsteroids = createAsteroids(200);
+const initialAsteroids = createAsteroids(20);
 const spaceship = createSpaceship();
 
 export const useGameStore = create<GameStore>((set) => ({
@@ -68,6 +69,13 @@ export const useGameStore = create<GameStore>((set) => ({
       .asteroids.filter((asteroid) => asteroid.id !== id);
 
     set({ asteroids: updatedAsteroids });
+  },
+
+  createAsteroids: (quantity) => {
+    const { asteroids } = useGameStore.getState();
+    const newAsteroids = createAsteroids(quantity);
+    set({ asteroids: [...asteroids, ...newAsteroids] });
+    return newAsteroids;
   },
 
   // LASERS

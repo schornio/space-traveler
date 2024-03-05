@@ -15,6 +15,7 @@ import { PATH_3D_MODELS } from "./path";
 import { useFrame } from "@react-three/fiber";
 import { useGameStore } from "../../store/useGameStore";
 import { toPosition } from "../../utils/toPosition";
+import { schornColors } from "../../constants/schornColors";
 
 // type GLTFResult = GLTF & {
 //   nodes: {
@@ -33,11 +34,13 @@ export function Asteroids() {
   // ) as GLTFResult;
 
   useFrame(() => {
-    asteroids.forEach(({ ref, rotationSpeed, speed }) => {
+    asteroids.forEach(({ ref, rotationSpeed, speed, position }) => {
       if (ref.current) {
         ref.current.rotation.z += speed;
         ref.current.rotation.x += rotationSpeed.x;
         ref.current.rotation.y += rotationSpeed.y;
+
+        ref.current.position.z += 0.1;
       }
     });
   });
@@ -56,9 +59,9 @@ export function Asteroids() {
           >
             <dodecahedronGeometry args={[1, 0]} />
             <meshStandardMaterial
-              color={"white"}
-              roughness={0.5}
-              metalness={0.5}
+              color={schornColors.magenta}
+              roughness={0.2}
+              metalness={0.8}
             />
           </mesh>
         );

@@ -1,16 +1,17 @@
 import { createRef } from "react";
 import { Mesh } from "three";
-import { FLOOR_RADIUS, FLOOR_WIDTH } from "../components/Floor";
 import { AsteroidState } from "../store/useGameStore";
 
 export function createAsteroids(quantity: number): AsteroidState[] {
+  const initialZ = 20;
+  const spreadWidth = 15;
+  const depth = 100;
+
   return Array.from({ length: quantity }, () => {
-    const positioningRadius = FLOOR_RADIUS + 10;
-    const angle = Math.random() * Math.PI * 2;
-    const positionTop = (Math.random() * FLOOR_WIDTH) / 10;
-    const positionLeft = Math.cos(angle) * positioningRadius;
-    const positionIn = Math.sin(angle) * positioningRadius;
-    const scale = Math.random() * 1.5;
+    const positionLeft = Math.random() * spreadWidth - spreadWidth / 2; // Spread width evenly across left and right
+    const positionIn = initialZ + Math.random() * depth;
+    const positionTop = (Math.random() * 10) / 2; // Spread height evenly across top and bottom
+    const scale = Math.random() * 1.5 + 0.5; // Ensure minimum size
 
     return {
       ref: createRef<Mesh>(),
@@ -20,7 +21,7 @@ export function createAsteroids(quantity: number): AsteroidState[] {
       },
       position: { positionLeft, positionTop, positionIn },
       size: scale,
-      speed: Math.random() * 0.1,
+      speed: Math.random() * 0.02 + 0.01, // Ensure a minimum speed
       id: Math.random().toString(36).substring(7),
     };
   });
