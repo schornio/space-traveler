@@ -8,10 +8,12 @@ import { useGameStore } from "./store/useGameStore";
 import { VRScene } from "./VRScene";
 import useControlsStore from "./store/useControlsStore";
 import { useEffect, useState } from "react";
+import { GAME_TEXT } from "./constants/gameText";
 
 const sessionOptions: XRSessionInit = {
   requiredFeatures: ["local-floor", "hand-tracking"],
 };
+const { health, score: tScore, enterVR: tEnterVR, rotateDevice } = GAME_TEXT;
 
 function App() {
   const currentDevice = useCurrentDevice();
@@ -20,11 +22,9 @@ function App() {
     healthSpaceship: state.healthSpaceship,
     score: state.score,
   }));
-
   const initializeKeyboard = useControlsStore(
     (state) => state.initializeKeyboard
   );
-
   const [isLandscape, setIsLandscape] = useState(
     window.innerWidth > window.innerHeight
   );
@@ -58,14 +58,14 @@ function App() {
             }}
           >
             <p className="health-info">
-              Health:{" "}
+              {health}:{" "}
               <span className="info-detail">
                 {String(healthSpaceship).toUpperCase()}
               </span>
             </p>
             <p className="device-info">{currentDevice.toUpperCase()}</p>
             <p className="score-info">
-              Score: <span className="info-detail">{score}</span>
+              {tScore}: <span className="info-detail">{score}</span>
             </p>
           </div>
 
@@ -90,7 +90,7 @@ function App() {
           {currentDevice === "vr" && (
             <div>
               <button onClick={enterVR} className="enter-vr-btn">
-                Enter VR
+                {tEnterVR}
               </button>
               <VRScene />
             </div>
@@ -106,7 +106,7 @@ function App() {
 function RotateDevice() {
   return (
     <div className="rotate-device-container">
-      <p>Rotate your device to landscape mode</p>
+      <p>{rotateDevice}</p>
     </div>
   );
 }

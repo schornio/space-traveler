@@ -17,7 +17,7 @@
 
 @font-face {
   font-family: "Neo Cybern";
-  src: local("Neo Cybern"), url("/neo_cybern.otf") format("truetype");
+  src: local("Neo Cybern"), url("/space_age.ttf") format("truetype");
 }
 
 .rotate-device-container {

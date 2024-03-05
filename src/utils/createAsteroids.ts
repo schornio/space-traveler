@@ -14,7 +14,7 @@ export function createAsteroids(quantity: number): AsteroidState[] {
     const positionLeft = Math.random() * SPREAD_WIDTH - SPREAD_WIDTH / 2;
     const positionIn = INITIAL_DISTANCE + Math.random() * DEPTH;
     const positionTop = Math.random() * HEIGHT_LIMIT - HEIGHT_LIMIT / 2;
-    const scale = MIN_ASTEROID_SIZE + Math.random() * MAX_ASTEROID_SIZE; // Ensures a minimum size of 0.5 and up to 2
+    const scale = MIN_ASTEROID_SIZE + Math.random() * MAX_ASTEROID_SIZE;
 
     return {
       ref: createRef<Mesh>(),
