@@ -8,7 +8,7 @@ import { Asteroids } from "./components/3DModels/Asteroids";
 
 const COLLISION_TIME_INTERVAL = 1000;
 const CHECK_LASER_HIT_INTERVAL = 100;
-const TIME_TO_CREATE_ASTEROIDS = 10 * 1000;
+const TIME_TO_CREATE_ASTEROIDS = 5 * 1000;
 const AsteroidMemo = memo(Asteroids);
 
 export function CoreGame() {

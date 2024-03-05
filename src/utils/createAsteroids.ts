@@ -2,7 +2,7 @@ import { createRef } from "react";
 import { Mesh } from "three";
 import { AsteroidState } from "../store/useGameStore";
 
-const INITIAL_DISTANCE = 20;
+const INITIAL_DISTANCE = 50;
 const SPREAD_WIDTH = 10;
 const DEPTH = 100;
 const HEIGHT_LIMIT = 6;

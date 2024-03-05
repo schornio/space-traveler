@@ -3,8 +3,6 @@ import { toPosition } from "../../utils/toPosition";
 import { toRotation } from "../../utils/toRotation";
 import Button from "../Button";
 
-const amIsitting = false;
-
 type SpaceshipHandControlProps = {
   onInteraction: (action: keyof ActionControls, value: boolean) => void;
 };
@@ -16,7 +14,7 @@ export function SpaceshipHandControl({
     <group
       position={toPosition({
         positionLeft: 0.3,
-        positionTop: amIsitting ? 0.2 : 0.5,
+        positionTop: 0.1,
         positionIn: 0.2,
       })}
       scale={0.8}

@@ -5,7 +5,6 @@ import { DoubleSide, RepeatWrapping } from "three";
 import { Plane, useTexture } from "@react-three/drei";
 import textureBlueSrc from "/texture_blue.png";
 import { useFrame } from "@react-three/fiber";
-import { schornColors } from "../../constants/schornColors";
 
 const SPEED_GROUND_MOVEMENT = 0.6;
 
@@ -15,13 +14,12 @@ export function Ground() {
   const offsetRef = useRef(0);
   textureBlue.wrapS = textureBlue.wrapT = RepeatWrapping;
   texturePurple.wrapS = texturePurple.wrapT = RepeatWrapping;
-  // textureBlue.repeat.set(20, 20);
-  texturePurple.repeat.set(140, 140);
+  texturePurple.repeat.set(1, 30);
 
   useFrame(() => {
     offsetRef.current += SPEED_GROUND_MOVEMENT * 0.01;
     textureBlue.offset.x = offsetRef.current;
-    texturePurple.offset.y = offsetRef.current;
+    texturePurple.offset.y = offsetRef.current * 2;
   });
 
   return (
@@ -30,7 +28,7 @@ export function Ground() {
         args={[1000, 1000, 1, 1]}
         rotation={toRotation({ rotationXInRad: -Math.PI / 2 })}
         position={toPosition({
-          positionBottom: 6,
+          positionBottom: 4,
         })}
       >
         <meshStandardMaterial
@@ -46,7 +44,7 @@ export function Ground() {
           rotationYInRad: Math.PI / 2,
         })}
         position={toPosition({
-          positionLeft: 6,
+          positionLeft: 10,
         })}
       >
         <meshStandardMaterial
@@ -62,7 +60,7 @@ export function Ground() {
           rotationYInRad: Math.PI / 2,
         })}
         position={toPosition({
-          positionRight: 6,
+          positionRight: 10,
         })}
       >
         <meshStandardMaterial
@@ -71,6 +69,22 @@ export function Ground() {
           side={DoubleSide}
         />
       </Plane>
+
+      {/* <Plane
+        args={[1000, 1000, 1, 1]}
+        rotation={toRotation({ rotationXInRad: -Math.PI / 2 })}
+        position={toPosition({
+          positionTop: 4,
+        })}
+      >
+        <meshStandardMaterial
+          attach="material"
+          map={texturePurple}
+          side={DoubleSide}
+          // transparent
+          // opacity={0.8}
+        />
+      </Plane> */}
     </group>
   );
 }

@@ -41,7 +41,7 @@ export function Asteroids() {
         ref.current.rotation.x += rotationSpeed.x;
         ref.current.rotation.y += rotationSpeed.y;
 
-        ref.current.position.z += 0.1;
+        ref.current.position.z += 0.5;
       }
     });
   });

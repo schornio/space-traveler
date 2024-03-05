@@ -14,26 +14,9 @@ export function SphereBackground() {
           rotationYInRad: -RotationRad.QUARTER,
         })}
       >
-        {/* original radius 500 */}
         <sphereGeometry args={[2000, 120, 80]} />
         <meshBasicMaterial side={BackSide} map={texture} />
       </mesh>
-
-      {/* <SphereOverlay /> */}
     </group>
-  );
-}
-
-function SphereOverlay({ opacity = 0.5 }: { opacity?: number }) {
-  return (
-    <mesh>
-      <sphereGeometry args={[9, 32, 32]} />
-      <meshBasicMaterial
-        color="black"
-        side={BackSide}
-        opacity={opacity}
-        transparent
-      />
-    </mesh>
   );
 }
