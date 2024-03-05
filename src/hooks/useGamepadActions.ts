@@ -27,7 +27,7 @@ type GamepadActionsReturn = {
 
 export function useGamepadActions({
   inputSource,
-  movementSpeed = 0.06,
+  movementSpeed = 0.08,
 }: GamepadActionsProps): GamepadActionsReturn {
   const reader = useXRGamepadReader(inputSource);
   const [thumbstickPosition, setThumbstickPosition] =

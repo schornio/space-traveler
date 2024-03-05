@@ -1,17 +1,23 @@
-import { OrbitControls } from "@react-three/drei";
 import { useGameStore } from "./store/useGameStore";
-import { Floor } from "./components/Floor";
+import { Ground } from "./components/Ground";
 import { memo, useEffect } from "react";
 import { Spaceship } from "./components/3DModels/Spaceship";
 import "./globals.css";
+import { OrbitControls } from "@react-three/drei";
+import { Asteroids } from "./components/3DModels/Asteroids";
 
-const FloorMemoized = memo(Floor);
-const COLLISION_TIME_INTERVAL = 500;
+const COLLISION_TIME_INTERVAL = 1000;
+const CHECK_LASER_HIT_INTERVAL = 100;
+const TIME_TO_CREATE_ASTEROIDS = 5 * 1000;
+const AsteroidMemo = memo(Asteroids);
 
 export function CoreGame() {
-  const isShipHitByAsteroid = useGameStore(
-    (state) => state.isShipHitByAsteroid
-  );
+  const { isShipHitByAsteroid, isAsteroidHitByLaser, createAsteroids } =
+    useGameStore((state) => ({
+      isShipHitByAsteroid: state.isShipHitByAsteroid,
+      isAsteroidHitByLaser: state.isAsteroidHitByLaser,
+      createAsteroids: state.createAsteroids,
+    }));
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -21,7 +27,27 @@ export function CoreGame() {
     return () => {
       clearInterval(interval);
     };
-  }, [isShipHitByAsteroid]);
+  }, []);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      isAsteroidHitByLaser();
+    }, CHECK_LASER_HIT_INTERVAL);
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      createAsteroids(10);
+    }, TIME_TO_CREATE_ASTEROIDS);
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
 
   return (
     <group>
@@ -30,7 +56,8 @@ export function CoreGame() {
       <OrbitControls />
 
       <Spaceship />
-      <FloorMemoized />
+      <Ground />
+      <AsteroidMemo />
     </group>
   );
 }
