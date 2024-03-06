@@ -1,5 +1,5 @@
 import { useEnterXR } from "@coconut-xr/natuerlich/react";
-import { CoreGame } from "./scenes/Game";
+import { Game } from "./scenes/Game";
 import { TouchDeviceControls } from "./components/TouchDeviceControls";
 import "./globals.css";
 import { useCurrentDevice } from "./store/useCurrentDevice";
@@ -9,7 +9,6 @@ import { VRScene } from "./VRScene";
 import useControlsStore from "./store/useControlsStore";
 import { useEffect, useState } from "react";
 import { GAME_TEXT } from "./constants/gameText";
-import { Start } from "./scenes/Start";
 import { SceneRenderer } from "./scenes/SceneRenderer";
 
 const sessionOptions: XRSessionInit = {
@@ -54,7 +53,8 @@ function App() {
     <main className="noselect">
       {isLandscape ? (
         <>
-          <div
+          {/* TO-DO: Find a way to make the menus work better with the scene renderer - centralizing it (https://github.com/orgs/schornio/projects/6/views/1?pane=issue&itemId=55536859) */}
+          {/* <div
             style={{
               fontSize: currentDevice === "touchDevice" ? "1rem" : "2rem",
             }}
@@ -80,17 +80,11 @@ function App() {
             >
               <TouchDeviceControls />
             </div>
-          )}
+          )} */}
 
           {/* Web canvas */}
           <div className="canvas-container">
-            {/* <p>Start</p> */}
-
-            <Canvas>
-              <SceneRenderer isVR={false} />
-              {/* <Start isVR /> */}
-              {/* <CoreGame /> */}
-            </Canvas>
+            <SceneRenderer isVR={false} />
           </div>
 
           {currentDevice === "vr" && (
@@ -98,7 +92,7 @@ function App() {
               <button onClick={enterVR} className="enter-vr-btn">
                 {tEnterVR}
               </button>
-              <VRScene />
+              <SceneRenderer isVR={true} />
             </div>
           )}
         </>
