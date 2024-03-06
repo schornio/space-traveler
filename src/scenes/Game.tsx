@@ -1,18 +1,17 @@
-import { useGameStore } from "./store/useGameStore";
-import { Ground } from "./components/Ground";
+import { useGameStore } from "../store/useGameStore";
+import { Ground } from "../components/Ground";
 import { memo, useEffect } from "react";
-import { Spaceship } from "./components/3DModels/Spaceship";
-import "./globals.css";
+import { Spaceship } from "../components/3DModels/Spaceship";
 import { Environment, OrbitControls } from "@react-three/drei";
-import { Asteroids } from "./components/3DModels/Asteroids";
-import { SphereBackground } from "./components/SphereBackground";
+import { Asteroids } from "../components/3DModels/Asteroids";
+import { SphereBackground } from "../components/SphereBackground";
 
 const COLLISION_TIME_INTERVAL = 1000;
 const CHECK_LASER_HIT_INTERVAL = 100;
 const TIME_TO_CREATE_ASTEROIDS = 5 * 1000;
 const AsteroidMemo = memo(Asteroids);
 
-export function CoreGame() {
+export function Game() {
   const { isShipHitByAsteroid, isAsteroidHitByLaser, createAsteroids } =
     useGameStore((state) => ({
       isShipHitByAsteroid: state.isShipHitByAsteroid,

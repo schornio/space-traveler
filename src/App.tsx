@@ -1,5 +1,5 @@
 import { useEnterXR } from "@coconut-xr/natuerlich/react";
-import { CoreGame } from "./CoreGame";
+import { CoreGame } from "./scenes/Game";
 import { TouchDeviceControls } from "./components/TouchDeviceControls";
 import "./globals.css";
 import { useCurrentDevice } from "./store/useCurrentDevice";
@@ -9,6 +9,8 @@ import { VRScene } from "./VRScene";
 import useControlsStore from "./store/useControlsStore";
 import { useEffect, useState } from "react";
 import { GAME_TEXT } from "./constants/gameText";
+import { Start } from "./scenes/Start";
+import { SceneRenderer } from "./scenes/SceneRenderer";
 
 const sessionOptions: XRSessionInit = {
   requiredFeatures: ["local-floor", "hand-tracking"],
@@ -82,8 +84,12 @@ function App() {
 
           {/* Web canvas */}
           <div className="canvas-container">
+            {/* <p>Start</p> */}
+
             <Canvas>
-              <CoreGame />
+              <SceneRenderer isVR={false} />
+              {/* <Start isVR /> */}
+              {/* <CoreGame /> */}
             </Canvas>
           </div>
 
