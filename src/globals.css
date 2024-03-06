@@ -76,22 +76,26 @@ button:focus-visible {
   background-color: #111;
 }
 
-.health-info {
+.ws-info {
   color: white;
   position: absolute;
-  top: 10%;
-  right: 5%;
-  font-size: 2em;
+  font-size: 1.5em;
   font-weight: 500;
 }
 
+.health-info {
+  top: 10%;
+  right: 5%;
+}
+
 .score-info {
-  color: white;
-  position: absolute;
   top: 20%;
   right: 5%;
-  font-size: 2em;
-  font-weight: 500;
+}
+
+.countdown-info {
+  top: 30%;
+  right: 5%;
 }
 
 .info-detail {
@@ -100,11 +104,21 @@ button:focus-visible {
 
 .device-info {
   position: absolute;
-  top: 30%;
+  top: 40%;
   right: 5%;
   font-size: 1em;
   font-weight: 500;
   color: #e6007e;
+}
+
+.logo-web-canvas {
+  position: absolute;
+  bottom: 10%;
+  right: 2%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 60px;
+  z-index: 10;
 }
 
 /* SCENES */
