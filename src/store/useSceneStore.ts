@@ -11,7 +11,7 @@ type SceneState = {
 const TIME_BEFORE_NEXT_SCENE = 2000;
 
 export const useSceneStore = create<SceneState>((set) => ({
-  currentScene: "end",
+  currentScene: "start",
   lastChanged: 0,
 
   nextScene: () =>

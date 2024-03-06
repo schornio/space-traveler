@@ -57,6 +57,7 @@ function App() {
 function RotateDevice() {
   return (
     <div className="rotate-device-container">
+      <img src="schornio_logo.png" alt="logo" className="logo" />
       <p>{rotateDevice}</p>
     </div>
   );

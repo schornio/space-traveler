@@ -53,7 +53,13 @@ export function WSGame() {
 
       {/* Web canvas */}
       <div className="canvas-container">
-        <img src="schornio_logo.png" alt="" className="logo-web-canvas" />
+        <img
+          src="schornio_logo.png"
+          alt=""
+          className={`${
+            currentDevice === "web" ? "logo-web-canvas" : "logo-touch-device"
+          }`}
+        />
 
         <Canvas>
           <Game />
