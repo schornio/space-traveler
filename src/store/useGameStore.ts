@@ -1,5 +1,5 @@
 import { RefObject, createRef } from "react";
-import { Group, Mesh, Vector3 } from "three";
+import { Group, Vector3 } from "three";
 import { create } from "zustand";
 import { createAsteroids } from "../utils/createAsteroids";
 import { Position } from "../utils/toPosition";
@@ -25,7 +25,7 @@ export type SpaceshipState = {
 };
 
 export type AsteroidState = {
-  ref: RefObject<Mesh>;
+  ref: RefObject<Group>;
   id: string;
   position: Position;
   size: number;

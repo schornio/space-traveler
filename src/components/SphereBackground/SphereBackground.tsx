@@ -1,5 +1,5 @@
 import { useLoader } from "@react-three/fiber";
-import { BackSide, TextureLoader } from "three";
+import { DoubleSide, TextureLoader } from "three";
 import galaxyBg from "/galaxy_2.jpg";
 import { RotationRad, toRotation } from "../../utils/toRotation";
 
@@ -14,8 +14,8 @@ export function SphereBackground() {
           rotationYInRad: -RotationRad.QUARTER,
         })}
       >
-        <sphereGeometry args={[2000, 120, 80]} />
-        <meshBasicMaterial side={BackSide} map={texture} />
+        <sphereGeometry args={[500, 120, 80]} />
+        <meshBasicMaterial side={DoubleSide} map={texture} />
       </mesh>
     </group>
   );
