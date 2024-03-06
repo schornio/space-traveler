@@ -2,9 +2,7 @@ import { useGameStore } from "../store/useGameStore";
 import { Ground } from "../components/Ground";
 import { memo, useEffect } from "react";
 import { Spaceship } from "../components/3DModels/Spaceship";
-import { Environment, OrbitControls } from "@react-three/drei";
 import { Asteroids } from "../components/3DModels/Asteroids";
-import { SphereBackground } from "../components/SphereBackground";
 
 const COLLISION_TIME_INTERVAL = 1000;
 const CHECK_LASER_HIT_INTERVAL = 100;
@@ -51,12 +49,6 @@ export function Game() {
 
   return (
     <group>
-      <ambientLight intensity={9} />
-      <Environment preset="city" />
-      <SphereBackground />
-
-      <OrbitControls />
-
       <Spaceship />
       <Ground />
       <AsteroidMemo />
