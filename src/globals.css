@@ -168,18 +168,7 @@ button:focus-visible {
   }
 
   .scene-container {
-    gap: 30px;
-  }
-
-  html {
-    background-color: red;
-    margin: 0;
-    width: 100%;
-  }
-
-  .canvas-container {
-    padding: env(safe-area-inset-top) env(safe-area-inset-right)
-      env(safe-area-inset-bottom) env(safe-area-inset-left);
+    gap: 20px;
   }
 }
 
