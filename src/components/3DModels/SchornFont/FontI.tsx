@@ -8,6 +8,7 @@ import * as THREE from "three";
 import { useGLTF } from "@react-three/drei";
 import { GLTF } from "three-stdlib";
 import { PATH_FONT_3D_MODELS } from "./path";
+import { toPosition } from "../../../utils/toPosition";
 
 type GLTFResult = GLTF & {
   nodes: {
@@ -24,7 +25,13 @@ export function FontI() {
   ) as GLTFResult;
 
   return (
-    <group dispose={null}>
+    <group
+      dispose={null}
+      position={toPosition({
+        positionLeft: 0.2,
+        positionBottom: 0.1,
+      })}
+    >
       <mesh
         geometry={nodes.schornio_letters_8i.geometry}
         material={materials.Schornio_material}

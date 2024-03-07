@@ -34,6 +34,9 @@ type GLTFResult = GLTF & {
   };
 };
 
+const SPACESHIP_HEIGHT = 3;
+const SPACESHIP_DISTANCE = 6;
+
 export function Spaceship() {
   const { nodes, materials } = useGLTF(
     `${PATH_3D_MODELS}/spaceshipOptimized-transformed.glb`
@@ -52,8 +55,8 @@ export function Spaceship() {
         dispose={null}
         scale={currentDevice === "vr" ? 0.25 : 0.4}
         position={toPosition({
-          positionBottom: 3,
-          positionIn: 6,
+          positionBottom: SPACESHIP_HEIGHT,
+          positionIn: SPACESHIP_DISTANCE,
         })}
         rotation={toRotation({
           rotationXInDeg: -10,

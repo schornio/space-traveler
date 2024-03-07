@@ -29,6 +29,8 @@ function App() {
     if (currentDevice === "web") {
       const cleanUp = initializeKeyboard();
 
+      console.log("cleanUp", cleanUp);
+
       return () => {
         cleanUp();
       };

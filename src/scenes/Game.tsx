@@ -5,10 +5,12 @@ import { Spaceship } from "../components/3DModels/Spaceship";
 import { Asteroids } from "../components/3DModels/Asteroids";
 import { useCountdownStore } from "../store/useCountdownStore";
 import { useSceneStore } from "../store/useSceneStore";
+import { OrbitControls } from "@react-three/drei";
+import { SphereBackground } from "../components/SphereBackground";
 
 const COLLISION_TIME_INTERVAL = 1000;
 const CHECK_LASER_HIT_INTERVAL = 100;
-const TIME_TO_CREATE_ASTEROIDS = 5 * 1000;
+const TIME_TO_CREATE_ASTEROIDS = 3 * 1000;
 const GAME_DURATION_IN_SECONDS = 60;
 
 const AsteroidMemo = memo(Asteroids);
@@ -24,7 +26,7 @@ export function Game() {
   const startCountdown = useCountdownStore((state) => state.startCountdown);
 
   useEffect(() => {
-    const cleanup = startCountdown(GAME_DURATION_IN_SECONDS, () => {
+    const cleanup = startCountdown(1000, () => {
       nextScene();
     });
 
@@ -65,6 +67,8 @@ export function Game() {
 
   return (
     <group>
+      <SphereBackground />
+      <OrbitControls />
       <Spaceship />
       <Ground />
       <AsteroidMemo />

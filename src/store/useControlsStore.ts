@@ -29,6 +29,8 @@ const useControlsStore = create<ControlsStore>((set) => ({
     })),
 
   initializeKeyboard: () => {
+    console.log("initializeKeyboard called");
+
     const keyMap: { [key: string]: keyof ActionControls } = {
       w: "up",
       s: "down",

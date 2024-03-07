@@ -14,7 +14,6 @@ import {
 import { Controllers, Hands, XRCanvas } from "@coconut-xr/natuerlich/defaults";
 import { GAME_TEXT } from "../../constants/gameText";
 import { Environment } from "@react-three/drei";
-import { SphereBackground } from "../../components/SphereBackground";
 import { FaPlay } from "react-icons/fa";
 
 const sessionOptions: XRSessionInit = {
@@ -53,7 +52,6 @@ export function SceneRenderer({ isVR }: SceneRendererProps) {
 
       <XRCanvas>
         <ImmersiveSessionOrigin>
-          <SphereBackground />
           <ambientLight intensity={9} />
           <Environment preset="city" />
           <Suspense fallback={<LoadingSpinner />}>

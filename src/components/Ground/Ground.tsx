@@ -6,7 +6,9 @@ import { Plane, useTexture } from "@react-three/drei";
 import textureBlueSrc from "/texture_blue.png";
 import { useFrame } from "@react-three/fiber";
 
-const SPEED_GROUND_MOVEMENT = 0.6;
+export const SPEED_GROUND_MOVEMENT = 0.6;
+export const GROUND_HEIGHT = 6;
+export const WALLS_WIDTH = 22;
 
 export function Ground() {
   const textureBlue = useTexture(textureBlueSrc);
@@ -28,7 +30,7 @@ export function Ground() {
         args={[1000, 1000, 1, 1]}
         rotation={toRotation({ rotationXInRad: -Math.PI / 2 })}
         position={toPosition({
-          positionBottom: 4,
+          positionBottom: GROUND_HEIGHT,
         })}
       >
         <meshStandardMaterial
@@ -39,12 +41,12 @@ export function Ground() {
       </Plane>
 
       <Plane
-        args={[1000, 10, 1, 1]}
+        args={[1000, 12, 1, 1]}
         rotation={toRotation({
           rotationYInRad: Math.PI / 2,
         })}
         position={toPosition({
-          positionLeft: 10,
+          positionLeft: WALLS_WIDTH / 2,
         })}
       >
         <meshStandardMaterial
@@ -55,12 +57,12 @@ export function Ground() {
       </Plane>
 
       <Plane
-        args={[1000, 10, 1, 1]}
+        args={[1000, 12, 1, 1]}
         rotation={toRotation({
           rotationYInRad: Math.PI / 2,
         })}
         position={toPosition({
-          positionRight: 10,
+          positionRight: WALLS_WIDTH / 2,
         })}
       >
         <meshStandardMaterial
@@ -69,22 +71,6 @@ export function Ground() {
           side={DoubleSide}
         />
       </Plane>
-
-      {/* <Plane
-        args={[1000, 1000, 1, 1]}
-        rotation={toRotation({ rotationXInRad: -Math.PI / 2 })}
-        position={toPosition({
-          positionTop: 4,
-        })}
-      >
-        <meshStandardMaterial
-          attach="material"
-          map={texturePurple}
-          side={DoubleSide}
-          // transparent
-          // opacity={0.8}
-        />
-      </Plane> */}
     </group>
   );
 }

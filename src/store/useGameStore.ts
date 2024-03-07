@@ -103,7 +103,9 @@ export const useGameStore = create<GameStore>((set) => ({
 
       const newLaser: LasersState = {
         ref: createRef(),
-        id: `laser-${state.lasers.length}`,
+        id: `laser-${Date.now().toString(36)}-${Math.random()
+          .toString(36)
+          .substring(2)}`,
         position: currentPosition.clone(),
         timeStamp: Date.now(),
       };
