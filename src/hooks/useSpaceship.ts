@@ -18,7 +18,7 @@ export function useSpaceship() {
 
   useFrame(() => {
     if (spaceshipRef.current) {
-      const delta = speed / 10;
+      const delta = speed / 5;
       let newPositionY = spaceshipRef.current.position.y;
       let newPositionX = spaceshipRef.current.position.x;
 

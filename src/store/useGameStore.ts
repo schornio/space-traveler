@@ -8,9 +8,8 @@ import { createSpaceship } from "../utils/createSpaceship";
 import { checkCollision } from "../utils/checkCollision";
 import { useSceneStore } from "./useSceneStore";
 
-// const LASER_CHECK_HIT_ITERATION = 100;
 const TIME_LASER_ACTIVE_IN_MS = 1 * 1000; // 1 second
-const COOLDOWN_BETWEN_LASERS_FIRE = 500;
+const COOLDOWN_BETWEN_LASERS_FIRE = 300;
 
 type LasersState = {
   ref: RefObject<Group>;
@@ -140,7 +139,7 @@ export const useGameStore = create<GameStore>((set) => ({
 
     if (newHealth <= 0) {
       const { nextScene } = useSceneStore.getState();
-      // nextScene();
+      nextScene();
     }
   },
   score: 0,
