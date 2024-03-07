@@ -11,6 +11,7 @@ export function SpaceshipVRControl() {
   );
   const inputSources = useInputSources();
   const leftInputSource = inputSources.find((s) => s.handedness === "left");
+  const rightInputSource = inputSources.find((s) => s.handedness === "right");
 
   const onInteraction = useCallback(
     (action: keyof ActionControls, value: boolean) => {
@@ -23,6 +24,10 @@ export function SpaceshipVRControl() {
     <group>
       {!isHandUsed && leftInputSource && (
         <SpaceshipGamepadControl inputSource={leftInputSource} />
+      )}
+
+      {!isHandUsed && rightInputSource && (
+        <SpaceshipGamepadControl inputSource={rightInputSource} />
       )}
 
       {isHandUsed && <SpaceshipHandControl onInteraction={onInteraction} />}

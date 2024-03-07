@@ -8,6 +8,7 @@ import { FontO } from "./FontO";
 import { FontR } from "./FontR";
 import { FontS } from "./FontS";
 import { useRef } from "react";
+import { Group } from "three";
 
 export const FONT_MODELS = [
   "fontC",
@@ -23,7 +24,7 @@ export const FONT_MODELS = [
 export function FontRandomSelector() {
   const randomIndex = Math.floor(Math.random() * FONT_MODELS.length);
   let model;
-  const ref = useRef();
+  const ref = useRef<Group>(null);
   const randomRotation = Math.random() * 0.01;
   const randomDirection = Math.random() > 0.5 ? 1 : -1;
 

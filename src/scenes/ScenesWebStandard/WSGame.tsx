@@ -6,6 +6,7 @@ import { GAME_TEXT } from "../../constants/gameText";
 import { useGameStore } from "../../store/useGameStore";
 import { Environment } from "@react-three/drei";
 import { useCountdownStore } from "../../store/useCountdownStore";
+import { SphereBackground } from "../../components/SphereBackground";
 
 const { health, score: tScore, countdown } = GAME_TEXT;
 
@@ -64,6 +65,7 @@ export function WSGame() {
         />
 
         <Canvas>
+          <SphereBackground />
           <ambientLight intensity={9} />
           <Environment preset="city" />
           <Game />

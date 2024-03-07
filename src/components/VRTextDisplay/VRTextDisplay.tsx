@@ -5,8 +5,10 @@ import { useGameStore } from "../../store/useGameStore";
 import { schornColors } from "../../constants/schornColors";
 import { GAME_TEXT } from "../../constants/gameText";
 import { useCountdownStore } from "../../store/useCountdownStore";
+import { Logo3D } from "../Logo3D";
+import { toRotation } from "../../utils/toRotation";
 
-const TEXT_HEIGHT = 2.5;
+const TEXT_HEIGHT = 4.2;
 const TEXT_DISTANCE = 5;
 
 const FONT_WIDTH = 1;
@@ -23,11 +25,20 @@ export function VRTextDisplay() {
 
   return (
     <group>
+      <Logo3D
+        image="schornio_logo.png"
+        positionIn={TEXT_DISTANCE}
+        positionTop={TEXT_HEIGHT + 1}
+      />
+
       <Center
         position={toPosition({
           positionTop: TEXT_HEIGHT,
           positionIn: TEXT_DISTANCE,
           positionLeft: 1.5,
+        })}
+        rotation={toRotation({
+          rotationXInDeg: 30,
         })}
       >
         <Text3D
@@ -36,7 +47,7 @@ export function VRTextDisplay() {
           scale={[FONT_WIDTH, FONT_HEIGHT, FONT_DEPTH]}
         >
           {`${health}: ${healthSpaceship}`}
-          <meshStandardMaterial color={schornColors.magenta} />
+          <meshStandardMaterial color={schornColors.royalBlue} />
         </Text3D>
       </Center>
 
@@ -44,6 +55,10 @@ export function VRTextDisplay() {
         position={toPosition({
           positionTop: TEXT_HEIGHT,
           positionIn: TEXT_DISTANCE,
+          positionLeft: 0.2,
+        })}
+        rotation={toRotation({
+          rotationXInDeg: 30,
         })}
       >
         <Text3D
@@ -52,7 +67,7 @@ export function VRTextDisplay() {
           scale={[FONT_WIDTH, FONT_HEIGHT, FONT_DEPTH]}
         >
           {`${tScore}: ${score}`}
-          <meshStandardMaterial color={schornColors.magenta} />
+          <meshStandardMaterial color={schornColors.royalBlue} />
         </Text3D>
       </Center>
 
@@ -62,6 +77,9 @@ export function VRTextDisplay() {
           positionIn: TEXT_DISTANCE,
           positionRight: 1.5,
         })}
+        rotation={toRotation({
+          rotationXInDeg: 30,
+        })}
       >
         <Text3D
           font="space_age.json"
@@ -69,7 +87,7 @@ export function VRTextDisplay() {
           scale={[FONT_WIDTH, FONT_HEIGHT, FONT_DEPTH]}
         >
           {`${countdown}: ${secondsLeft}`}
-          <meshStandardMaterial color={schornColors.magenta} />
+          <meshStandardMaterial color={schornColors.royalBlue} />
         </Text3D>
       </Center>
     </group>
