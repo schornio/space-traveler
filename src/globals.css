@@ -102,6 +102,13 @@ button:focus-visible {
   color: #e6007e;
 }
 
+.icon-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
 .device-info {
   position: absolute;
   top: 40%;
@@ -119,6 +126,15 @@ button:focus-visible {
   width: 60px;
   height: 60px;
   z-index: 10;
+}
+
+.helper-text {
+  font-size: 1.5em;
+}
+
+.game-name {
+  font-size: 2rem;
+  color: #e6007e;
 }
 
 /* SCENES */
