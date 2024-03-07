@@ -140,7 +140,7 @@ export const useGameStore = create<GameStore>((set) => ({
 
     if (newHealth <= 0) {
       const { nextScene } = useSceneStore.getState();
-      nextScene();
+      // nextScene();
     }
   },
   score: 0,
