@@ -38,9 +38,13 @@ export function SceneRenderer({ isVR }: SceneRendererProps) {
 
   const VRRendered = (
     <>
-      <button onClick={enterVR} className="enter-vr-btn">
-        {tEnterVR}
-      </button>
+      <div className="scene-container">
+        <img src="schornio_logo.png" alt="schornio logo" className="logo" />
+        <p>Start</p>
+        <button onClick={enterVR} className="enter-vr-btn">
+          {tEnterVR}
+        </button>
+      </div>
 
       <XRCanvas>
         <ImmersiveSessionOrigin>
