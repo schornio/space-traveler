@@ -103,7 +103,7 @@ export default function Button({
         args={toSize({
           sizeDepth: BUTTON_DEPTH,
           sizeHeight: 0.13,
-          sizeWidth: 0.4,
+          sizeWidth: 0.2,
         })}
         radius={0.05}
       >

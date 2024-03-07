@@ -24,7 +24,7 @@ export function Game() {
   const startCountdown = useCountdownStore((state) => state.startCountdown);
 
   useEffect(() => {
-    const cleanup = startCountdown(10, () => {
+    const cleanup = startCountdown(1000, () => {
       nextScene();
     });
 

@@ -82,7 +82,7 @@ export function VREnd() {
         <Text3D
           font="space_age.json"
           onPointerEnter={onInteraction}
-          scale={0.1}
+          scale={0.08}
         >
           {goBack}
         </Text3D>

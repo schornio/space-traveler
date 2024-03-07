@@ -1,8 +1,9 @@
-import { Center, Environment, Text3D } from "@react-three/drei";
+import { Center, Text3D } from "@react-three/drei";
 import { useSceneStore } from "../../store/useSceneStore";
 import { useCallback } from "react";
 import { toPosition } from "../../utils/toPosition";
 import { toRotation } from "../../utils/toRotation";
+import { Logo3D } from "../../components/Logo3D";
 
 export function VRStart() {
   const nextScene = useSceneStore((state) => state.nextScene);
@@ -13,8 +14,8 @@ export function VRStart() {
 
   return (
     <>
-      <ambientLight intensity={9} />
-      <Environment preset="city" />
+      <Logo3D image="schornio_logo.png" positionIn={2.5} positionTop={2.5} />
+
       <Center
         position={toPosition({
           positionIn: 0.5,
@@ -27,7 +28,7 @@ export function VRStart() {
         <Text3D
           font="space_age.json"
           onPointerEnter={onInteraction}
-          scale={0.1}
+          scale={0.08}
         >
           Start
         </Text3D>
