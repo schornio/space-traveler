@@ -70,7 +70,7 @@ button:focus-visible {
   top: 0;
   left: 0;
   width: 100%;
-  height: 100vh;
+  height: 100%;
   overflow: hidden;
   z-index: -1;
   background-color: #111;
@@ -122,7 +122,6 @@ button:focus-visible {
   position: absolute;
   bottom: 10%;
   right: 2%;
-  /* transform: translateX(-50%); */
   width: 60px;
   height: 60px;
   z-index: 10;
@@ -142,7 +141,7 @@ button:focus-visible {
   display: flex;
   position: relative;
   flex-direction: column;
-  max-width: 100vw;
+  max-width: 100%;
   height: 100vh;
   color: white;
   background-color: #111;
@@ -161,6 +160,29 @@ button:focus-visible {
   height: 80px;
 }
 
+@media (max-width: 1000px) {
+  .logo {
+    top: 5%;
+    width: 60px;
+    height: 60px;
+  }
+
+  .scene-container {
+    gap: 30px;
+  }
+
+  html {
+    background-color: red;
+    margin: 0;
+    width: 100%;
+  }
+
+  .canvas-container {
+    padding: env(safe-area-inset-top) env(safe-area-inset-right)
+      env(safe-area-inset-bottom) env(safe-area-inset-left);
+  }
+}
+
 /* TOUCH DEVICES (Phone and Tablet) */
 .touch-device-controls-container {
   position: fixed;
@@ -175,8 +197,8 @@ button:focus-visible {
 
 .touch-device-directions {
   position: relative;
-  width: 200px; /* Use vh to keep the aspect ratio based on height of the viewport */
-  height: 200px; /* Equal width and height */
+  width: 200px;
+  height: 200px;
   color: white;
   display: flex;
   justify-content: space-evenly;
@@ -196,7 +218,7 @@ button:focus-visible {
   align-items: center;
   border: 1px solid #cccccc;
   transition: border-color 0.2s ease-in-out;
-  user-select: none; /* Prevent text selection */
+  user-select: none;
 }
 
 .touch-device-controls-btn:active {
@@ -205,7 +227,7 @@ button:focus-visible {
 
 .icon-btn {
   color: white;
-  min-width: 30px; /* Example minimum size */
+  min-width: 30px;
   min-height: 30px;
 }
 
