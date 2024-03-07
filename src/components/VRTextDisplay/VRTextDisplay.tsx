@@ -4,6 +4,7 @@ import { fontSize } from "../../utils/fontSizes";
 import { useGameStore } from "../../store/useGameStore";
 import { schornColors } from "../../constants/schornColors";
 import { GAME_TEXT } from "../../constants/gameText";
+import { useCountdownStore } from "../../store/useCountdownStore";
 
 const TEXT_HEIGHT = 2.5;
 const TEXT_DISTANCE = 5;
@@ -17,6 +18,7 @@ export function VRTextDisplay() {
     healthSpaceship: state.healthSpaceship,
     score: state.score,
   }));
+  const secondsLeft = useCountdownStore((state) => state.secondsLeft);
   const { health, score: tScore, countdown } = GAME_TEXT;
 
   return (
@@ -66,7 +68,7 @@ export function VRTextDisplay() {
           size={fontSize.lg}
           scale={[FONT_WIDTH, FONT_HEIGHT, FONT_DEPTH]}
         >
-          {`${countdown}: ${0}`}
+          {`${countdown}: ${secondsLeft}`}
           <meshStandardMaterial color={schornColors.magenta} />
         </Text3D>
       </Center>

@@ -165,8 +165,6 @@ export const useGameStore = create<GameStore>((set) => ({
 
     for (let { ref: laserRef } of lasers) {
       if (laserRef.current) {
-        console.log("laserRef.current", laserRef.current);
-
         for (let { ref: asteroidRef, id: asteroidId } of asteroids) {
           if (
             asteroidRef.current &&

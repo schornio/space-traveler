@@ -44,10 +44,9 @@ export function SceneRenderer({ isVR }: SceneRendererProps) {
 
       <XRCanvas>
         <ImmersiveSessionOrigin>
+          <SphereBackground />
           <ambientLight intensity={9} />
           <Environment preset="city" />
-          <SphereBackground />
-
           <Suspense fallback={<LoadingSpinner />}>
             {VRScenes[currentScene]}
           </Suspense>

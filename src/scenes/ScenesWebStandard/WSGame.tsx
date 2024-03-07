@@ -4,12 +4,14 @@ import { Game } from "../Game";
 import { TouchDeviceControls } from "../../components/TouchDeviceControls";
 import { GAME_TEXT } from "../../constants/gameText";
 import { useGameStore } from "../../store/useGameStore";
-import { useCountdown } from "../../components/Countdown/useCountdown";
+import { Environment } from "@react-three/drei";
+import { useCountdownStore } from "../../store/useCountdownStore";
 
 const { health, score: tScore, countdown } = GAME_TEXT;
 
 export function WSGame() {
   const currentDevice = useCurrentDevice();
+  const secondsLeft = useCountdownStore((state) => state.secondsLeft);
   const { healthSpaceship, score } = useGameStore((state) => ({
     healthSpaceship: state.healthSpaceship,
     score: state.score,
@@ -34,7 +36,7 @@ export function WSGame() {
         </p>
 
         <p className="ws-info countdown-info">
-          {countdown}: <span className="info-detail">{0}</span>
+          {countdown}: <span className="info-detail">{secondsLeft}</span>
         </p>
 
         <p className="device-info">{currentDevice.toUpperCase()}</p>
@@ -62,6 +64,8 @@ export function WSGame() {
         />
 
         <Canvas>
+          <ambientLight intensity={9} />
+          <Environment preset="city" />
           <Game />
         </Canvas>
       </div>
