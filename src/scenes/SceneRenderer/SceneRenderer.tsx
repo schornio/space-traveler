@@ -15,6 +15,7 @@ import { Controllers, Hands, XRCanvas } from "@coconut-xr/natuerlich/defaults";
 import { GAME_TEXT } from "../../constants/gameText";
 import { Environment } from "@react-three/drei";
 import { SphereBackground } from "../../components/SphereBackground";
+import { FaPlay } from "react-icons/fa";
 
 const sessionOptions: XRSessionInit = {
   requiredFeatures: ["local-floor", "hand-tracking"],
@@ -29,6 +30,7 @@ const { enterVR: tEnterVR } = GAME_TEXT;
 export function SceneRenderer({ isVR }: SceneRendererProps) {
   const currentScene = useSceneStore((state) => state.currentScene);
   const enterVR = useEnterXR("immersive-vr", sessionOptions);
+  const { welcomeTo, gameName } = GAME_TEXT;
 
   const VRScenes = {
     start: <VRStart />,
@@ -40,8 +42,11 @@ export function SceneRenderer({ isVR }: SceneRendererProps) {
     <>
       <div className="scene-container">
         <img src="schornio_logo.png" alt="schornio logo" className="logo" />
-        <p>Start</p>
-        <button onClick={enterVR} className="enter-vr-btn">
+        <p className="helper-text">{welcomeTo}</p>
+        <p className="game-name">{gameName}</p>
+
+        <button onClick={enterVR} className="icon-container enter-vr-btn">
+          <FaPlay style={{ fontSize: "1rem" }} />
           {tEnterVR}
         </button>
       </div>
