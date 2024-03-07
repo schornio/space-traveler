@@ -13,7 +13,7 @@ export type LaserProps = {
   position: Vector3;
 };
 
-const SPACESHIP_WIDTH = 5;
+const SPACESHIP_WIDTH = 1;
 
 export function Laser({ id, position }: LaserProps) {
   const ref = useRef<Group>(null);
