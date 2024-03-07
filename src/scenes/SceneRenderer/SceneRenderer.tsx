@@ -15,6 +15,7 @@ import { Controllers, Hands, XRCanvas } from "@coconut-xr/natuerlich/defaults";
 import { GAME_TEXT } from "../../constants/gameText";
 import { Environment } from "@react-three/drei";
 import { FaPlay } from "react-icons/fa";
+import { SphereBackground } from "../../components/SphereBackground";
 
 const sessionOptions: XRSessionInit = {
   requiredFeatures: ["local-floor", "hand-tracking"],
@@ -52,6 +53,8 @@ export function SceneRenderer({ isVR }: SceneRendererProps) {
 
       <XRCanvas>
         <ImmersiveSessionOrigin>
+          <SphereBackground />
+
           <ambientLight intensity={9} />
           <Environment preset="city" />
           <Suspense fallback={<LoadingSpinner />}>

@@ -6,6 +6,7 @@ import { Position } from "../utils/toPosition";
 import { Rotation } from "../utils/toRotation";
 import { createSpaceship } from "../utils/createSpaceship";
 import { checkCollision } from "../utils/checkCollision";
+import { useSceneStore } from "./useSceneStore";
 
 // const LASER_CHECK_HIT_ITERATION = 100;
 const TIME_LASER_ACTIVE_IN_MS = 1 * 1000; // 1 second
@@ -52,6 +53,8 @@ type GameStore = {
 
   isShipHitByAsteroid: () => void;
   isAsteroidHitByLaser: () => void;
+
+  resetGame: () => void;
 };
 
 const initialAsteroids = createAsteroids(10);
@@ -134,6 +137,11 @@ export const useGameStore = create<GameStore>((set) => ({
   healthSpaceship: 100,
   setHealthSpaceship: (newHealth) => {
     set({ healthSpaceship: newHealth });
+
+    if (newHealth <= 0) {
+      const { nextScene } = useSceneStore.getState();
+      nextScene();
+    }
   },
   score: 0,
   setScore: (newScore) => {
@@ -181,5 +189,13 @@ export const useGameStore = create<GameStore>((set) => ({
     }
     const { cleanOldLasers } = useGameStore.getState();
     cleanOldLasers();
+  },
+
+  resetGame: () => {
+    set({
+      asteroids: createAsteroids(10),
+      healthSpaceship: 100,
+      score: 0,
+    });
   },
 }));

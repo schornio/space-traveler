@@ -3,7 +3,7 @@ import { Group } from "three";
 import { AsteroidState } from "../store/useGameStore";
 import { GROUND_HEIGHT, WALLS_WIDTH } from "../components/Ground";
 
-const INITIAL_DISTANCE = 50;
+const INITIAL_DISTANCE = 200;
 const DEPTH = 100;
 const MIN_ASTEROID_SIZE = 5;
 const MAX_ASTEROID_SIZE = 15;
