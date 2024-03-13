@@ -10,7 +10,7 @@ import { toRotation } from "../../utils/toRotation";
 
 export function VREnd() {
   const nextScene = useSceneStore((state) => state.nextScene);
-  const { score, resetGame } = useGameStore((state) => ({
+  const { score } = useGameStore((state) => ({
     score: state.score,
     resetGame: state.resetGame,
   }));
@@ -18,7 +18,6 @@ export function VREnd() {
 
   const onInteraction = useCallback(() => {
     nextScene();
-    resetGame();
   }, []);
 
   return (
