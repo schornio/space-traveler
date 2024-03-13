@@ -1,4 +1,3 @@
-import { useFrame } from "@react-three/fiber";
 import { FontC } from "./FontC";
 import { FontDot } from "./FontDot";
 import { FontH } from "./FontH";
@@ -25,14 +24,6 @@ export function FontRandomSelector() {
   const randomIndex = Math.floor(Math.random() * FONT_MODELS.length);
   let model;
   const ref = useRef<Group>(null);
-  const randomRotation = Math.random() * 0.01;
-  const randomDirection = Math.random() > 0.5 ? 1 : -1;
-
-  // useFrame(() => {
-  //   if (ref.current) {
-  //     ref.current.rotation.y -= randomRotation * randomDirection;
-  //   }
-  // });
 
   switch (FONT_MODELS[randomIndex]) {
     case "fontC":
