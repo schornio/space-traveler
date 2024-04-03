@@ -5,7 +5,6 @@ import { Spaceship } from "../components/3DModels/Spaceship";
 import { Asteroids } from "../components/3DModels/Asteroids";
 import { useCountdownStore } from "../store/useCountdownStore";
 import { useSceneStore } from "../store/useSceneStore";
-import { OrbitControls } from "@react-three/drei";
 
 const COLLISION_TIME_INTERVAL = 100;
 const TIME_TO_CREATE_ASTEROIDS = 2 * 1000;
@@ -56,7 +55,6 @@ export function Game() {
 
   return (
     <group>
-      <OrbitControls />
       <Spaceship />
       <Ground />
       <AsteroidMemo />
