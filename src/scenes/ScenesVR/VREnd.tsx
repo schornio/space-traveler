@@ -69,14 +69,14 @@ export function VREnd() {
           scale={0.1}
         >
           {gameName}
-          <meshStandardMaterial color={schornColors.magenta} />
+          <meshStandardMaterial color={schornColors.royalBlue} />
         </Text3D>
       </Center>
 
       <Center
         position={toPosition({
           positionIn: 0.5,
-          positionTop: 1.3,
+          positionTop: 1,
         })}
         rotation={toRotation({
           rotationXInDeg: -30,

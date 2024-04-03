@@ -22,7 +22,7 @@ export function VRStart() {
       <Center
         position={toPosition({
           positionIn: 0.5,
-          positionTop: 1.3,
+          positionTop: 1,
         })}
         rotation={toRotation({
           rotationXInDeg: -30,
