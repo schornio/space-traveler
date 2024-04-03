@@ -13,17 +13,16 @@ export function SpaceshipHandControl({
   return (
     <group
       position={toPosition({
-        positionLeft: 0.3,
-        positionTop: 0.6,
-        positionIn: 0.2,
+        positionIn: 0.3,
+        positionTop: 0.8,
       })}
-      scale={0.8}
       rotation={toRotation({
-        rotationXInDeg: -20,
+        rotationXInDeg: -70,
       })}
     >
       <Button
-        positionTop={1}
+        positionTop={0.15}
+        positionLeft={0.2}
         onPressStart={() => {
           onInteraction("up", true);
         }}
@@ -35,7 +34,9 @@ export function SpaceshipHandControl({
       </Button>
 
       <Button
-        positionTop={0.6}
+        positionOut={0.008}
+        positionBottom={0.15}
+        positionLeft={0.2}
         onPressStart={() => {
           onInteraction("down", true);
         }}
@@ -47,8 +48,7 @@ export function SpaceshipHandControl({
       </Button>
 
       <Button
-        positionTop={0.8}
-        positionLeft={0.2}
+        positionLeft={0.35}
         onPressStart={() => {
           onInteraction("left", true);
         }}
@@ -60,8 +60,7 @@ export function SpaceshipHandControl({
       </Button>
 
       <Button
-        positionTop={0.8}
-        positionRight={0.2}
+        positionLeft={0.05}
         onPressStart={() => {
           onInteraction("right", true);
         }}
@@ -73,8 +72,7 @@ export function SpaceshipHandControl({
       </Button>
 
       <Button
-        positionTop={0.8}
-        positionRight={0.7}
+        positionRight={0.25}
         onPressStart={() => {
           onInteraction("shoot", true);
         }}

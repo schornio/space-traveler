@@ -1,11 +1,7 @@
 import { useSceneStore } from "../../store/useSceneStore";
 import { Suspense } from "react";
 import { LoadingSpinner } from "../../components/LoadingSpinner";
-import { VRStart } from "../ScenesVR/VRStart";
-import { VREnd } from "../ScenesVR/VREnd";
-import { WSStart } from "../ScenesWebStandard/WSStart";
 import { WSEnd } from "../ScenesWebStandard/WSEnd";
-import { VRGame } from "../ScenesVR/VRGame";
 import { WSGame } from "../ScenesWebStandard/WSGame";
 import {
   ImmersiveSessionOrigin,
@@ -16,6 +12,10 @@ import { GAME_TEXT } from "../../constants/gameText";
 import { Environment } from "@react-three/drei";
 import { FaPlay } from "react-icons/fa";
 import { SphereBackground } from "../../components/SphereBackground";
+import { WSStart } from "../ScenesWebStandard/WSStart";
+import { VRStart } from "../ScenesVR/VRStart";
+import { VRGame } from "../ScenesVR/VRGame";
+import { VREnd } from "../ScenesVR/VREnd";
 
 const sessionOptions: XRSessionInit = {
   requiredFeatures: ["local-floor", "hand-tracking"],

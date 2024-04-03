@@ -7,12 +7,11 @@ export type SupportedDevices = {
 };
 
 function isVR() {
-  const userAgent = navigator.userAgent.toLocaleLowerCase();
-  const VRTerms = ["Quest", "OculusBrowser", "VR"].map((term) => {
-    return userAgent.includes(term.toLocaleLowerCase());
-  });
+  if (navigator.xr?.ondevicechange === undefined) {
+    return false;
+  }
 
-  return VRTerms.includes(true);
+  return true;
 }
 
 function isTouchDevice() {

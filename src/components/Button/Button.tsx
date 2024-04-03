@@ -1,4 +1,4 @@
-import { RoundedBox, Text } from "@react-three/drei";
+import { Text } from "@react-three/drei";
 import { ReactNode, useCallback, useEffect, useRef, useState } from "react";
 import { Group, Vector3 } from "three";
 import { Position, toPosition } from "../../utils/toPosition";
@@ -35,7 +35,7 @@ type ButtonProps = {
 
 const PRESS_DISTANCE = 0.01;
 const COOLDOWN_TIME = 1000;
-const BUTTON_DEPTH = 0.08;
+const BUTTON_DEPTH = 0.005;
 
 export default function Button({
   children,
@@ -99,21 +99,22 @@ export default function Button({
       rotation={toRotation(props)}
       {...handleInteraction}
     >
-      <RoundedBox
-        args={toSize({
-          sizeDepth: BUTTON_DEPTH,
-          sizeHeight: 0.13,
-          sizeWidth: 0.2,
-        })}
-        radius={0.05}
-      >
+      <mesh>
+        <boxGeometry
+          args={toSize({
+            sizeWidth: 0.1,
+            sizeHeight: 0.1,
+            sizeDepth: BUTTON_DEPTH,
+          })}
+        />
         <meshStandardMaterial
           color={backgroundColor}
           roughness={0.1}
           metalness={0.2}
+          transparent
+          opacity={0.5}
         />
-      </RoundedBox>
-
+      </mesh>
       <Text
         position={toPosition({
           positionOut: BUTTON_DEPTH / 2 + 0.001,
