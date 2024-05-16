@@ -6,12 +6,19 @@ export type SupportedDevices = {
   vr: "vr";
 };
 
-function isVR() {
-  if (navigator.xr?.ondevicechange === undefined) {
-    return false;
+async function isVR() {
+  if (navigator.xr?.ondevicechange !== undefined) {
+    try {
+      const isSupported = await navigator.xr.isSessionSupported("immersive-vr");
+      if (isSupported) {
+        return true;
+      }
+    } catch (error) {
+      console.error("Error checking WebXR support:", error);
+    }
   }
 
-  return true;
+  return false;
 }
 
 function isTouchDevice() {
@@ -20,12 +27,12 @@ function isTouchDevice() {
   );
 }
 
-function checkCurrentDevice(): keyof SupportedDevices {
+async function checkCurrentDevice(): Promise<keyof SupportedDevices> {
   if (isTouchDevice()) {
     return "touchDevice";
   }
 
-  if (isVR()) {
+  if (await isVR()) {
     return "vr";
   }
 
@@ -37,7 +44,7 @@ export function useCurrentDevice() {
     useState<keyof SupportedDevices>("web");
 
   useEffect(() => {
-    setCurrentDevice(checkCurrentDevice());
+    checkCurrentDevice().then(setCurrentDevice);
   }, []);
 
   return currentDevice;
