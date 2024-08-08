@@ -4,6 +4,9 @@ import useControlsStore from "./store/useControlsStore";
 import { useEffect, useState } from "react";
 import { GAME_TEXT } from "./constants/gameText";
 import { SceneRenderer } from "./scenes/SceneRenderer";
+import { overrideFetch } from "./utils/overrideFetch";
+
+overrideFetch();
 
 const { rotateDevice } = GAME_TEXT;
 
